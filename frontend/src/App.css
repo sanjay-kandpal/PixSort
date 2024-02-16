@@ -4,6 +4,7 @@
 }
 
 .dashboard--content{
+   width: 50%;
    background: #fff;
    flex: 1; 
    border-radius: 20px;

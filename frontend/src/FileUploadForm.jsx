@@ -1,5 +1,8 @@
 import React, { useState, useRef } from 'react';
 import  './styles/FileUploadForm.css';
+import Sidebar from './Sidebar';
+
+
 const FileUploadForm = ({ onFileUpload }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [filePreviews, setFilePreviews] = useState([]);
@@ -60,7 +63,11 @@ const FileUploadForm = ({ onFileUpload }) => {
   };
 
   return (
+    <>
+    <div className='dashboard'>
+    <Sidebar />
     <div className="modal-body">
+    <div className='dashboard--content'>  
       <h2 className="modal-title">Upload a file</h2>
       <p className="modal-description">Attach the file below</p>
       <input type="file" multiple onChange={handleFileChange} ref={fileInputRef} />
@@ -84,6 +91,9 @@ const FileUploadForm = ({ onFileUpload }) => {
         Upload File
       </button>
     </div>
+    </div>
+    </div>
+  </>
   );
 };
 

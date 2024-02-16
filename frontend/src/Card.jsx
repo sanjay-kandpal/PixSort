@@ -1,19 +1,24 @@
 import React from "react";
-import { BiGift } from "react-icons/bi";
+import { GrGallery } from "react-icons/gr";
 const album =[
     {
         title: 'family Photos',
-        icon: <BiGift />,
+        icon: <GrGallery />,
         size: '25GB'
     },
     {
-        title: 'faaf',
-        icon: <BiGift />,
+        title: 'Party Photos',
+        icon: <GrGallery />,
         size: '25GB'
     },
     {
-        title: 'faaf',
-        icon: <BiGift />,
+        title: 'Trip Photos',
+        icon: <GrGallery />,
+        size: '25GB'
+    },
+    {
+        title: 'Trip Photos',
+        icon: <GrGallery />,
         size: '25GB'
     }
 ]
