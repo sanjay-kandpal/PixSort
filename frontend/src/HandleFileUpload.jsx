@@ -1,7 +1,7 @@
 import React from 'react';
 import FileUploadForm from './FileUploadForm'; // Adjust the import path accordingly
 
-const App = () => {
+const handleFileUpload = () => {
   
   // Define the function to handle file upload
   const handleFileUpload = async (formData) => {
@@ -27,10 +27,10 @@ const App = () => {
 
   return (
     <div>
-      <h1>Multiple File Upload</h1>
+      {/* <h1>Multiple File Upload</h1> */}
       <FileUploadForm onFileUpload={handleFileUpload} />
     </div>
   );
 };
 
-export default App;
+export default handleFileUpload;

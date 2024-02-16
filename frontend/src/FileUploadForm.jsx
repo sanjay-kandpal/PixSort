@@ -1,30 +1,26 @@
 import React, { useState, useRef } from 'react';
-
+import  './styles/FileUploadForm.css';
 const FileUploadForm = ({ onFileUpload }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [filePreviews, setFilePreviews] = useState([]);
-  const [previewKey, setPreviewKey] = useState(0); // Add previewKey state
+  const [previewKey, setPreviewKey] = useState(0);
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
     const files = e.target.files;
 
-    // Update the selected files state
     setSelectedFiles(files);
 
-    // Generate file previews
     const previews = [];
     for (let i = 0; i < files.length; i++) {
       const reader = new FileReader();
       reader.onload = (event) => {
         previews.push({ file: files[i], preview: event.target.result, selected: false });
-        // Set the file previews state
         setFilePreviews([...previews]);
       };
       reader.readAsDataURL(files[i]);
     }
 
-    // Increment previewKey to reset previews when files change
     setPreviewKey((prevKey) => prevKey + 1);
   };
 
@@ -35,7 +31,6 @@ const FileUploadForm = ({ onFileUpload }) => {
   };
 
   const handleUpload = () => {
-    // Check if at least one file is selected
     if (selectedFiles.length === 0) {
       alert('Select images.');
       return;
@@ -47,50 +42,47 @@ const FileUploadForm = ({ onFileUpload }) => {
         formData.append('files', filePreviews[i].file);
       }
     }
-    // Convert FormData to array and get its length
+
     const formDataArray = [...formData.entries()];
     const formDataLength = formDataArray.length;
-    if(formDataLength > 0){
-      // Call a function to handle file upload (passed as a prop)
+    if (formDataLength > 0) {
       onFileUpload(formData);
-    }else{
+    } else {
       alert('Select images.');
       return;
     }
 
-    
-    
-
-    // Reset the file input to default value
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
 
-    // Reset the file previews to default value
     setFilePreviews([]);
   };
 
   return (
-    <div>
-      <input type="file" multiple onChange={handleFileChange} ref={fileInputRef} key={previewKey} />
-      
-      {/* Display file previews with checkboxes */}
-      {filePreviews.map((preview, index) => (
-        <div key={index}>
-          <input
-            type="checkbox"
-            checked={preview.selected}
-            onChange={() => handleCheckboxChange(index)}
-          />
-          <img
-            src={preview.preview}
-            alt={`Preview ${index}`}
-            style={{ maxWidth: '100px', maxHeight: '100px', margin: '5px' }}
-          />
-        </div>
-      ))}
+    <div className="modal-body">
+      <h2 className="modal-title">Upload a file</h2>
+      <p className="modal-description">Attach the file below</p>
+      <input type="file" multiple onChange={handleFileChange} ref={fileInputRef} />
 
-      <button onClick={handleUpload}>Upload</button>
+      {/* Display file previews with checkboxes */}
+      <div className='flex-file-previews' key={previewKey}>
+        {filePreviews.map((file, index) => (
+          <div key={index} className='file-preview'>
+            <img src={file.preview} alt={`Preview of ${file.file.name}`} />
+            <div className='checkbox-wrapper-56'>
+              <label className='container'>
+                <input type='checkbox' checked={file.selected} onChange={() => handleCheckboxChange(index)} />
+                <div className='checkmark'></div>
+              </label>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button className="btn-primary" onClick={handleUpload}>
+        Upload File
+      </button>
     </div>
   );
 };
