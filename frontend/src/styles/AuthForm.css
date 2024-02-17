@@ -1,0 +1,30 @@
+.flex-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+}
+
+.sidebar-main{
+    border: 1px solid black;
+    width: 30%;
+    height: 100vh;
+    display: flex;
+    /* align-items: center;   */
+}
+.sidebar-img{
+    width: 35%;  
+    height: 100%;
+}
+.sidebar-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.flex-login{
+    padding: 1.2em;
+    border: 1px solid black;
+    width: 100%;
+    
+}
