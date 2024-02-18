@@ -1,4 +1,14 @@
+#logo{
+    position: absolute;
+    width: 190px;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    left: 75px;
+    top: 45px;
+    border: 0;
+}
 .flex-container{
+    position: fixed;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -6,11 +16,9 @@
 }
 
 .sidebar-main{
-    border: 1px solid black;
     width: 30%;
     height: 100vh;
     display: flex;
-    /* align-items: center;   */
 }
 .sidebar-img{
     width: 35%;  
@@ -24,7 +32,7 @@
 
 .flex-login{
     padding: 1.2em;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 100%;
     
 }

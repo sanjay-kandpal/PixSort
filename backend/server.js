@@ -29,6 +29,23 @@ app.use(session({
     } //set the session cookie properties
 }))
 
+
+app.post('/signout', (req, res) => {
+  // Destroy the session on the server
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    // Clear the session cookie on the client
+    res.clearCookie('connect.sid');
+    return res.status(200).send('OK');
+  });
+});
+
+
+
 // Function to generate a random 6-digit code
 const generateRandomCode = () => {
   return crypto.randomBytes(3).toString('hex').toUpperCase();
@@ -107,8 +124,8 @@ app.post('/signup',(req,res)=>{
 })
 
 app.get('/',(req,res)=>{
-  if(req.session.username) {
-   return res.json({valid: true,username: req.session.username});
+  if(req.session.username ) {
+   return res.json({valid: true,username: req.session.username,cookie: req.cookies});
   }else{
     return res.json({valid: false});
   }

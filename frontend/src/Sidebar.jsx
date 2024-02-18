@@ -1,15 +1,15 @@
 import React from "react";
-import {BiBookAlt, BiHome} from "react-icons/bi";
+import {BiHome} from "react-icons/bi";
 import { FaShareAltSquare,FaCloudUploadAlt } from "react-icons/fa";
 import "../src/styles/sidebar.css"
+import logo from "../src/styles/logo.png";
 import {Link} from "react-router-dom";
 import { FaUsersViewfinder } from "react-icons/fa6";
 const Sidebar = () =>{
  return(
     <div className="menu">
         <div className="logo">
-            <BiBookAlt className="logo-icon"/>
-            <h2>PixSort</h2>
+            <img src={logo} id="logo"/>
         </div>
         <div className="menu--list">
             <Link to="/" className="item">
