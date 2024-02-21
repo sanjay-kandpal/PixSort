@@ -1,6 +1,6 @@
 .dashboard{
     display:  flex;
-    width: 70%;
+    width: 100%;
     gap: 20px;
     position: relative;
 }

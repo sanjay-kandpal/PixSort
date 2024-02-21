@@ -2,13 +2,16 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import { ImProfile } from "react-icons/im";
 import Content from "./Content";
-import Profile from "./Profile";
 import "./App.css";
+import { CgProfile } from "react-icons/cg";
 import { BiSearch } from "react-icons/bi";
 import { FaSignOutAlt } from "react-icons/fa";
+
 function Home(){
     const [name,setName] = useState('');
+    const [isActive, setIsActive] = useState(false);
     const [isAuthenticated,setAuthentic] = useState(false);
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
@@ -49,6 +52,24 @@ function Home(){
             console.error('Sign-out error:', error.message);
           }
     };
+
+    const toggleNotification = () => {
+        setIsActive(!isActive);
+    
+        // Simulating notifications
+        const notifications = document.querySelectorAll('.notification');
+    
+        notifications.forEach((notification) => {
+          notification.classList.add('show');
+        });
+    
+        setTimeout(() => {
+          notifications.forEach((notification) => {
+            notification.classList.remove('show');
+          });
+          setIsActive(false);
+        }, 3000);
+      };
     return(
         <>
         <div className="dashboard">
@@ -57,19 +78,26 @@ function Home(){
                 <div className="content--header">
                      <h1 className="header--title">Dashboard</h1>
                         <div className="header--activity">
+                        <div className={`notification-container ${isActive ? 'active' : ''}`} >
+                               <CgProfile className="icon profile_icon" onClick={toggleNotification}/>
+                               <div className="notification-dropdown">
+                                    <div className="notification" id="notification1">
+                                     Profile<ImProfile />
+                                    </div>
+                                    <div className="notify notification" id="notification2">
+                                        <FaSignOutAlt  className="icon" onClick={handleIconClick} />Exit
+                                    </div>
+                                </div>
+                            </div>
                             <div className="search-box">
                                 <input type="text" placeholder="Search anything here..." />
                                 <BiSearch className="icon" />
-                            </div>
-                            <div className="notify">
-                                <FaSignOutAlt  className="icon" onClick={handleIconClick} />
-                            </div>
+                            </div>                           
                         </div>
                 </div>
                     <Content />            
             </div>
         </div>
-        <Profile />
         </>
     )
 }
