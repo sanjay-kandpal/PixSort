@@ -31,7 +31,7 @@
 	border: 1px solid black;
 }
 img{
-	width: 100%;
+	/* width: 100%; */
     height: auto;
 	border: 1px solid black;
 }
@@ -110,3 +110,16 @@ img{
     transform: rotate(45deg);
   }
 
+
+
+  .file-drop-zone {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+  
+  .file-drop-zone.dragging {
+    border-color: #007bff;
+  }
