@@ -1,10 +1,11 @@
 import React from "react";
 import { BiHome } from "react-icons/bi";
 import { FaShareAltSquare, FaCloudUploadAlt } from "react-icons/fa";
-import "../src/styles/sidebar.css";
-import logo from "../src/styles/logo.png";
+import "../styles/sidebar.css";
+import logo from "../images/logo.png";
 import { Link } from "react-router-dom";
 import { FaUsersViewfinder } from "react-icons/fa6";
+
 const Sidebar = () => {
     return (
         <div className="menu">

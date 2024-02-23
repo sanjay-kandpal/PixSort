@@ -29,7 +29,7 @@ const handleFileUpload = () => {
     <div>
       {/* <h1>Multiple File Upload</h1> */}
       {/* <FileUploadForm onFileUpload={handleFileUpload} /> */}
-      <FileUpload />  
+      <FileUpload />
     </div>
   );
 };

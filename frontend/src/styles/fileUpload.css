@@ -44,6 +44,8 @@
     align-self: end;
     font-size: 1.3rem;
     margin-top: 2rem;
+    display: flex;
+    /* flex-direction: column; */
 }
 
 .copyIcon {
@@ -64,4 +66,8 @@
 
 .fadeanime {
     animation: fadeKeyframe 100ms ease;
+}
+
+.titleInput {
+    margin: 0px 4rem;
 }

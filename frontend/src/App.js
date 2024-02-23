@@ -1,9 +1,9 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './Login';
-import Signup from './Signup';
-import Home from './Home';
-import HandleFileUpload from './HandleFileUpload';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./component/Login";
+import Signup from "./component/Signup";
+import Home from "./component/Home";
+import HandleFileUpload from "./component/HandleFileUpload";
 function App() {
   return (
     <BrowserRouter>
@@ -12,7 +12,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<div>hello</div>} />
-        <Route path='/Upload' element={<HandleFileUpload />} />
+        <Route path="/Upload" element={<HandleFileUpload />} />
       </Routes>
     </BrowserRouter>
   );
