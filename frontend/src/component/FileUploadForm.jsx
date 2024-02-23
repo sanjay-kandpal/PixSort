@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "./styles/FileUploadForm.css";
+import "../styles/FileUploadForm.css";
 import Sidebar from "./Sidebar";
 
 const FileUploadForm = ({ onFileUpload }) => {
@@ -13,7 +13,7 @@ const FileUploadForm = ({ onFileUpload }) => {
     const files = e.target.files;
 
     setSelectedFiles(files);
-    
+
     const previews = [];
     for (let i = 0; i < files.length; i++) {
       const reader = new FileReader();
@@ -56,34 +56,34 @@ const FileUploadForm = ({ onFileUpload }) => {
   };
   return (
     <>
-    <div className='dashboard'>
-    <Sidebar />
-    <div className="modal-body">
-    <div className='dashboard--content'>
-      <h2 className="modal-title">Upload a file</h2>
-      <p className="modal-description">Attach the file below</p>
-      <input type="file" multiple onChange={handleFileChange} ref={fileInputRef} />
-      <div className='flex-file-previews' key={previewKey}>
-        {filePreviews.map((file, index) => (
-          <div key={index} className='file-preview'>
-            <img src={file.preview} alt={`Preview of ${file.file.name}`} />
-            <div className='checkbox-wrapper-56'>
-              <label className='container'>
-                <input type='checkbox' checked={file.selected} onChange={() => handleCheckboxChange(index)} />
-                <div className='checkmark'></div>
-              </label>
+      <div className='dashboard'>
+        <Sidebar />
+        <div className="modal-body">
+          <div className='dashboard--content'>
+            <h2 className="modal-title">Upload a file</h2>
+            <p className="modal-description">Attach the file below</p>
+            <input type="file" multiple onChange={handleFileChange} ref={fileInputRef} />
+            <div className='flex-file-previews' key={previewKey}>
+              {filePreviews.map((file, index) => (
+                <div key={index} className='file-preview'>
+                  <img src={file.preview} alt={`Preview of ${file.file.name}`} />
+                  <div className='checkbox-wrapper-56'>
+                    <label className='container'>
+                      <input type='checkbox' checked={file.selected} onChange={() => handleCheckboxChange(index)} />
+                      <div className='checkmark'></div>
+                    </label>
+                  </div>
+                </div>
+              ))}
             </div>
+
+            <button className="btn-primary" onClick={handleUpload}>
+              Upload File
+            </button>
           </div>
-        ))}
+        </div>
       </div>
-          
-      <button className="btn-primary" onClick={handleUpload}>
-        Upload File
-      </button>
-    </div>
-    </div>
-    </div>
-  </>
+    </>
   );
 };
 
