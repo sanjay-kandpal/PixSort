@@ -1,9 +1,9 @@
-import React, { useState, useRef } from 'react';
-import  './styles/FileUploadForm.css';
-import Sidebar from './Sidebar';
-
+import React, { useState, useRef } from "react";
+import "./styles/FileUploadForm.css";
+import Sidebar from "./Sidebar";
 
 const FileUploadForm = ({ onFileUpload }) => {
+
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [filePreviews, setFilePreviews] = useState([]);
   const [previewKey, setPreviewKey] = useState(0);
@@ -13,7 +13,7 @@ const FileUploadForm = ({ onFileUpload }) => {
     const files = e.target.files;
 
     setSelectedFiles(files);
-
+    
     const previews = [];
     for (let i = 0; i < files.length; i++) {
       const reader = new FileReader();
@@ -23,29 +23,24 @@ const FileUploadForm = ({ onFileUpload }) => {
       };
       reader.readAsDataURL(files[i]);
     }
-
     setPreviewKey((prevKey) => prevKey + 1);
   };
-
   const handleCheckboxChange = (index) => {
     const updatedPreviews = [...filePreviews];
     updatedPreviews[index].selected = !updatedPreviews[index].selected;
     setFilePreviews(updatedPreviews);
   };
-
   const handleUpload = () => {
     if (selectedFiles.length === 0) {
       alert('Select images.');
       return;
     }
-
     const formData = new FormData();
     for (let i = 0; i < filePreviews.length; i++) {
       if (filePreviews[i].selected) {
         formData.append('files', filePreviews[i].file);
       }
     }
-
     const formDataArray = [...formData.entries()];
     const formDataLength = formDataArray.length;
     if (formDataLength > 0) {
@@ -54,25 +49,20 @@ const FileUploadForm = ({ onFileUpload }) => {
       alert('Select images.');
       return;
     }
-
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-
     setFilePreviews([]);
   };
-
   return (
     <>
     <div className='dashboard'>
     <Sidebar />
     <div className="modal-body">
-    <div className='dashboard--content'>  
+    <div className='dashboard--content'>
       <h2 className="modal-title">Upload a file</h2>
       <p className="modal-description">Attach the file below</p>
       <input type="file" multiple onChange={handleFileChange} ref={fileInputRef} />
-
-      {/* Display file previews with checkboxes */}
       <div className='flex-file-previews' key={previewKey}>
         {filePreviews.map((file, index) => (
           <div key={index} className='file-preview'>
@@ -86,7 +76,7 @@ const FileUploadForm = ({ onFileUpload }) => {
           </div>
         ))}
       </div>
-
+          
       <button className="btn-primary" onClick={handleUpload}>
         Upload File
       </button>
