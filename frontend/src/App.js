@@ -3,7 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import Home from './Home';
+import LandingPage from './LandingPage';
 import HandleFileUpload from './HandleFileUpload';
+
 function App() {
   return (
     <BrowserRouter>
@@ -11,7 +13,7 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Home />} />
-        <Route path="/home" element={<div>hello</div>} />
+        <Route path="/landing" element={<LandingPage />} />
         <Route path='/Upload' element={<HandleFileUpload />} />
       </Routes>
     </BrowserRouter>

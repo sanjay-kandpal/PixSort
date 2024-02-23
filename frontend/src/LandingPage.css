@@ -1,0 +1,81 @@
+header{
+    width: 100%;
+    
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.header_logo{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    
+    justify-content: center;
+}
+.landing_header{
+  
+    display: flex;
+    text-align: center;
+    padding: 0.3em;
+    align-items: center;
+    margin: 0 auto;
+    width: 90%;
+    justify-content: space-evenly;
+    font-size: 1.2rem
+}
+.landing_nav{
+    margin-top: auto;
+    
+    width: 48%;
+    display: flex;
+    align-items: center;
+}
+.landing_nav li{
+    list-style-type: none;
+    display: inline;
+    
+    font-weight: 500;
+    padding: 1.8em;
+}
+.landing_nav a{
+    text-decoration: none;
+    color: black;
+}
+.landing_Getbtn{
+    margin-left: 2.4em;
+}
+
+.landing_Login a{
+    color: black;
+    text-decoration: none;
+    margin-top: auto;
+}
+.dropbtn {
+
+    cursor: pointer;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    left: 40%;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 0.2em 0.3em;
+    font-size: 1.0rem;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {background-color: #f1f1f1;}
+  .dropdown:hover .dropdown-content {display: block;}
+  
