@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import Validation from './SignupValidation';
 import { useState } from 'react';
 import axios from 'axios';
+import girlImg from './styles/girlPhotoGrapher.jpg'
 
 function Signup(){
     const [values,setValues] = useState({
@@ -33,31 +34,49 @@ function Signup(){
 
 
     return(
-        <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
-         <div className='bg-white p-3 rounded w-25'>
-            <h2>Sign-Up</h2>
-            <form action='' onSubmit={handleSubmit}>
-                <div className='mb-3'>
-                    <label htmlFor='name'>Name</label>
-                    <input type="name" placeholder='Enter Name' name='name' onChange={handleInput} />
-                    {errors.name && <span className='text-danger'>{errors.name}</span>}
-                </div>            
-                <div className='mb-3'>
-                    <label htmlFor='email'>Email</label>
-                    <input type="email" placeholder='Enter Email' name='email' onChange={handleInput} />
-                    {errors.email && <span className='text-danger'>{errors.email}</span>}
+    // <!----------------------- Main Container -------------------------->
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    {/* <!----------------------- Login Container --------------------------> */}
+       <div class="row border rounded-5 p-3 bg-white shadow box-area">
+    {/* <!--------------------------- Left Box -----------------------------> */}
+       <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box">
+           <div class="featured-image mb-3">
+           <img src={girlImg} className="img-fluid" style={{ width: "350px",borderRadius: "5px" }} alt='girl photographer' />
+
+           </div>
+           <p class="text-white fs-2">Be Verified</p>
+           <small class="text-white text-wrap text-center">Join experienced Designers on this platform.</small>
+       </div> 
+    {/* <!-------------------- ------ Right Box ----------------------------> */}
+        
+       <div class="col-md-6 right-box">
+          <div class="row align-items-center">
+                <div class="header-text mb-4">
+                     <h2>Hello,Again</h2>
+                     <p>We are happy to have you back.</p>
                 </div>
-                <div className='mb-3'>
-                    <label htmlFor='password'>Password</label>
-                    <input type="password" placeholder='Enter Password' name='password' onChange={handleInput}/>
-                    {errors.password && <span className='text-danger'>{errors.password}</span>}
+            <form  action='' onSubmit={handleSubmit}>
+              <div class="input-group mb-3">
+                    <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Enter your Name" name='name' onChange={handleInput} />
+                  {errors.name && <span className='text-danger w-100'>{errors.name}</span>} 
+              </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Email address" name="email" onChange={handleInput} />
+                  {errors.email && <span className='text-danger w-100'>{errors.email}</span>}
                 </div>
-                <button type='submit' className='btn btn-success'>Sign Up</button>
-                <p>You are agree to our terms and policies</p>
-                <Link to="/signup" className='btn btn-default border'>Create Account</Link>
+                <div class="input-group mb-1">
+                    <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" name='password' onChange={handleInput} />
+                </div>
+           {errors.password && <span className='text-danger w-100'>{errors.password}</span>}
+                <div class="input-group mb-3">
+                    <button class="btn btn-lg btn-primary w-100 fs-6"  type="submit">Signup</button>
+                </div>
             </form>
+              
           </div>
-        </div>
+       </div> 
+      </div>
+    </div>
 
     )
 }

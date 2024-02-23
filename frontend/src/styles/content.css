@@ -1,5 +1,5 @@
 .content{
-    width: 75%;
+    width: 70%;
 }
 .content--header{
     display: flex;
@@ -34,6 +34,14 @@
  font-size: 1.2rem;
  cursor: pointer;
  transition: 0.5s ease-in-out;
+}
+.profile_icon{
+    margin-left: 0.3em; 
+    font-size: 3rem;
+    color: #526d82;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+
 }
 .notify{
     background: #dde6ed;
@@ -105,3 +113,40 @@
     color: #526d82;
     border-radius: 10px;
 }
+
+/* Profile notify Bar */
+  .notification-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .notification-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 80%;
+    width: 150px;
+    background-color: #4267b2; /* Facebook blue */
+    color: #fff;
+    padding: 10px;
+    
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .notification-container.active .notification-dropdown {
+    display: block;
+    z-index: 1;
+  }
+
+  .notification {
+    margin-bottom: 5px;
+    display: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 1.2em;
+    border-radius: 10px;
+    border-bottom: 1px solid #fff;
+  }
+  .show {
+    display: block;
+  }
