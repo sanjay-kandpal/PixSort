@@ -1,12 +1,40 @@
-import React from "react";
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import { BiHome } from "react-icons/bi";
 import { FaShareAltSquare, FaCloudUploadAlt } from "react-icons/fa";
 import "../styles/sidebar.css";
 import logo from "../images/logo.png";
 import { Link } from "react-router-dom";
 import { FaUsersViewfinder } from "react-icons/fa6";
+import { ImProfile } from "react-icons/im";
+import { FaSignOutAlt } from "react-icons/fa";
 
 const Sidebar = () => {
+
+    const [isAuthenticated, setAuthentic] = useState(false);
+    const navigate = useNavigate();
+
+    const handleExit = async () => {
+        console.log("Logout");
+        try {
+            const response = await fetch("http://localhost:8081/signout", {
+                method: "POST",
+                credentials: "include", // Include cookies in the request
+            });
+            console.log(response);
+            if (response.ok) {
+                // Handle successful sign-out (redirect, etc.)s
+                setAuthentic(false);
+                navigate("/login");
+            } else {
+                // Handle sign-out failure
+                console.error("Sign-out failed:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Sign-out error:", error.message);
+        }
+    };
+
     return (
         <div className="menu">
             <div className="logo">
@@ -29,6 +57,14 @@ const Sidebar = () => {
                     <FaShareAltSquare className="icon" />
                     <h3>Share</h3>
                 </Link>
+                <Link to="#" className="item">
+                    <ImProfile className="icon" />
+                    <h3>Profile</h3>
+                </Link>
+                <div to="#" className="item" onClick={handleExit}>
+                    <FaSignOutAlt className="icon" />
+                    <h3>Exit</h3>
+                </div>
             </div>
         </div>
     );
