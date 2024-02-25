@@ -69,6 +69,13 @@ const db = mysql.createConnection({
     database: "signup"
 })
 
+db.connect((err) => {
+  if (err) {
+    console.error('Error connecting to MySQL database:', err);
+  } else {
+    console.log('Connected to MySQL database');
+  }
+});
 
 
 // Handle file upload
@@ -113,11 +120,13 @@ app.post('/signup',(req,res)=>{
         req.body.email,
         req.body.password
     ]
-
+    console.log(values);
     db.query(sql,[values],(err,data) => {
       if(err){
+        console.log(err.message);
         return res.json({error: err.message});
       }  
+      console.log(data);
       return res.json(data);
     })
 
