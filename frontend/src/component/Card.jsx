@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { GrGallery } from "react-icons/gr";
-const album =[
+import { BiSearch } from "react-icons/bi";
+
+const album = [
     {
         title: 'family Photos',
         icon: <GrGallery />,
@@ -22,10 +24,19 @@ const album =[
         size: '25GB'
     }
 ]
-const Card = () =>{
-    return(
-        <div className="card--container">
-            {album.map((item) => (
+
+const Card = () => {
+
+    const [search, setSearch] = useState("")
+
+    return (
+        <div className="albumContainer">
+            <div className="search-box">
+                <input type="text" placeholder="Search party" value={search} onChange={(e) => { setSearch(e.target.value) }} />
+                <BiSearch className="icon" />
+            </div>
+            <div className="card--container">
+                {album.map((item) => (
                     <div className="card">
                         <div className="card--cover">{item.icon}</div>
                         <div className="card--title">
@@ -36,7 +47,8 @@ const Card = () =>{
                         </div>
                     </div>
                 )
-            )}
+                )}
+            </div>
         </div>
     )
 }

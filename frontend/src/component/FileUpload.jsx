@@ -110,6 +110,9 @@ const FileUpload = () => {
 				<button className="uploadButton" onClick={onUploadClick}>
 					Upload
 				</button>
+				<div className="imageDescription">
+
+				</div>
 			</div>
 		</div>
 	);

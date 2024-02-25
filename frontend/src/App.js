@@ -4,6 +4,8 @@ import Login from "./component/Login";
 import Signup from "./component/Signup";
 import Home from "./component/Home";
 import HandleFileUpload from "./component/HandleFileUpload";
+import SelfieUpload from "./component/SelfieUpload";
+
 function App() {
   return (
     <BrowserRouter>
@@ -13,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<div>hello</div>} />
         <Route path="/Upload" element={<HandleFileUpload />} />
+        <Route path="/selfImageUpload" element={<SelfieUpload />} />
       </Routes>
     </BrowserRouter>
   );
