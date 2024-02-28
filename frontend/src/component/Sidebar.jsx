@@ -57,7 +57,7 @@ const Sidebar = () => {
                     <FaShareAltSquare className="icon" />
                     <h3>Share</h3>
                 </Link>
-                <Link to="#" className="item">
+                <Link to="/profile" className="item">
                     <ImProfile className="icon" />
                     <h3>Profile</h3>
                 </Link>

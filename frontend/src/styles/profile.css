@@ -1,0 +1,46 @@
+.profileContainer {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profileCard {
+    border: 1px solid black;
+    padding: 3rem;
+    border-radius: 10px;
+
+}
+
+.profileCard .imageDiv img {
+    height: 150px;
+    margin-bottom: 1.5rem;
+    border-radius: 50%;
+}
+
+.profileCard .infoContainer div {
+    text-align: center;
+}
+
+.profileCard .infoContainer .name {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.profileCard .infoContainer .email,
+.mobile,
+.gender {
+    font-weight: 300;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+}
+
+.btn-container button {
+    margin: .5rem 0rem;
+    width: 100%;
+}

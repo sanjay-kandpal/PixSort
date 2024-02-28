@@ -6,6 +6,7 @@ import Home from "./component/Home";
 import HandleFileUpload from "./component/HandleFileUpload";
 import SelfieUpload from "./component/SelfieUpload";
 import LandingPage from "./component/LandingPage";
+import Profile from "./component/Profile";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/Upload" element={<HandleFileUpload />} />
         <Route path="/selfImageUpload" element={<SelfieUpload />} />
         <Route path="/landing" element={<LandingPage />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
