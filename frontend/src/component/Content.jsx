@@ -1,9 +1,9 @@
 import React from "react";
 import "../styles/content.css";
 import Card from "./Card";
-const Content = () => {
+const Content = ({codes}) => {
     return (
-        <Card />
+        <Card codes={codes} />
     );
 };
 export default Content;

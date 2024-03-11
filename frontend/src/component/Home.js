@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { ImProfile } from "react-icons/im";
@@ -7,14 +7,18 @@ import Content from "./Content";
 import "../App.css";
 import { CgProfile } from "react-icons/cg";
 import { BiSearch } from "react-icons/bi";
-import { FaSignOutAlt } from "react-icons/fa";
+import { FaSignOutAlt } from "react-icons/fa"
+// import { UserContext } from "../context/UserContext";
+
 
 function Home() {
 
 	const [name, setName] = useState("");
+	const [userId, setUserId] = useState("");
 	const [partyCode, setPartyCode] = useState("");
 	const [isActive, setIsActive] = useState(false);
 	const [isAuthenticated, setAuthentic] = useState(false);
+	const [codes, setCodes] = useState({});
 	const navigate = useNavigate();
 
 	axios.defaults.withCredentials = true;
@@ -26,7 +30,10 @@ function Home() {
 				console.log(res);
 				if (res.data.valid === true) {
 					setName(res.data.username);
+					setUserId(res.data.cookie.userid);
 					setAuthentic(true);
+					setCodes(res.data.userCodes)
+					// console.log(codes[0])
 				} else {
 					navigate("/Login");
 				}
@@ -74,8 +81,17 @@ function Home() {
 			setIsActive(false);
 		}, 3000);
 	};
-	
+
+	const addPartyCode = () => {
+		alert("Added");
+	}
+
+	// const UserProvider = ({ children, value }) => {
+	// 	return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+	// };
+
 	return (
+		// <UserProvider value={{ username: name, userid: userId }}>
 		<>
 			<div className="dashboard">
 				<Sidebar />
@@ -104,15 +120,16 @@ function Home() {
 								</div>
 							</div> */}
 							<div className="search-box">
-								<input type="text" placeholder="Enter Party Code here" value={partyCode} onChange={(e)=> {setPartyCode(e.target.value)}} />
-								<BiSearch className="icon" />
+								<input type="text" placeholder="Enter Party Code here" value={partyCode} onChange={(e) => { setPartyCode(e.target.value) }} />
+								<BiSearch className="icon" onClick={addPartyCode} />
 							</div>
 						</div>
 					</div>
-					<Content />
+					<Content codes={codes} />
 				</div>
 			</div>
 		</>
+		// </UserProvider>
 	);
 }
 

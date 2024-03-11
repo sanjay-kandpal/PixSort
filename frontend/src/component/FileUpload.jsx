@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Sidebar from "./Sidebar";
-// import { BiSearch } from "react-icons/bi";
 import "../styles/fileUpload.css"
+// import { BiSearch } from "react-icons/bi";
 // import axios from "axios";
 // import ReactS3 from "react-s3";
 import AWS from 'aws-sdk';
@@ -33,7 +33,7 @@ const activeDropzoneStyle = {
 	borderColor: "#00adb5",
 };
 
-const BUCKET_NAME = process.env.REACT_APP_BUCKET_NAME
+const BUCKET_NAME = process.env.REACT_APP_PARTY_BUCKET_NAME
 const REGION = process.env.REACT_APP_REGION
 const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY
@@ -106,29 +106,29 @@ const FileUpload = () => {
 		});
 
 		try {
-		await Promise.all(promises);
-		console.log('Files uploaded successfully');
-		setFiles([]);
-		const uploadData = {
-			partyCode,
-			title,
-		};
-		const response = await fetch('http://localhost:8081/upload', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(uploadData),
-		});
+			await Promise.all(promises);
+			console.log('Files uploaded successfully');
+			setFiles([]);
+			const uploadData = {
+				partyCode,
+				title,
+			};
+			const response = await fetch('http://localhost:8081/upload', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(uploadData),
+			});
 
-		if (response.ok) {
-			console.log('Upload data sent to server successfully');
-		} else {
-			console.error('Error sending upload data to server');
-		}
+			if (response.ok) {
+				console.log('Upload data sent to server successfully');
+			} else {
+				console.error('Error sending upload data to server');
+			}
 		} catch (error) {
-		console.error('Error uploading files:', error.message);
-		alert('Error uploading files. Please try again.');
+			console.error('Error uploading files:', error.message);
+			alert('Error uploading files. Please try again.');
 		}
 	};
 

@@ -28,7 +28,7 @@ function Login() {
       .get("http://localhost:8081/")
       .then((res) => {
         console.log(res);
-        if (res.data.valid) {
+        if (res.data.valid == true) {
           navigate("/");
         } else {
           navigate("/Login");

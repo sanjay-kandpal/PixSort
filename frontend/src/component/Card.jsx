@@ -2,32 +2,15 @@ import React, { useState } from "react";
 import { GrGallery } from "react-icons/gr";
 import { BiSearch } from "react-icons/bi";
 
-const album = [
-    {
-        title: 'family Photos',
-        icon: <GrGallery />,
-        size: '25GB'
-    },
-    {
-        title: 'Party Photos',
-        icon: <GrGallery />,
-        size: '25GB'
-    },
-    {
-        title: 'Trip Photos',
-        icon: <GrGallery />,
-        size: '25GB'
-    },
-    {
-        title: 'Trip Photos',
-        icon: <GrGallery />,
-        size: '25GB'
-    }
-]
-
-const Card = () => {
+const Card = ({ codes }) => {
 
     const [search, setSearch] = useState("")
+
+    if (!Array.isArray(codes)) {
+        console.error("codes prop is not an array:", codes);
+        return null; // or handle the error in another way
+    }
+
 
     return (
         <div className="albumContainer">
@@ -36,14 +19,14 @@ const Card = () => {
                 <BiSearch className="icon" />
             </div>
             <div className="card--container">
-                {album.map((item) => (
+                {codes.map((code) => (
                     <div className="card">
-                        <div className="card--cover">{item.icon}</div>
+                        {/* <div className="card--cover">{item.icon}</div> */}
                         <div className="card--title">
-                            <h3>{item.title}</h3>
+                            <h3>{code.title}</h3>
                         </div>
                         <div className="card--body">
-                            <p>{item.size}</p>
+                            <p>{code.partycode}</p>
                         </div>
                     </div>
                 )
