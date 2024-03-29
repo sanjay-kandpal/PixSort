@@ -8,7 +8,6 @@ import "../App.css";
 import { CgProfile } from "react-icons/cg";
 import { BiSearch } from "react-icons/bi";
 import { FaSignOutAlt } from "react-icons/fa"
-// import { UserContext } from "../context/UserContext";
 
 
 function Home() {
@@ -43,31 +42,9 @@ function Home() {
 			});
 	}, [isAuthenticated]);
 
-	// const handleIconClick = async () => {
-	// 	console.log("Logout");
-	// 	try {
-	// 		const response = await fetch("http://localhost:8081/signout", {
-	// 			method: "POST",
-	// 			credentials: "include", // Include cookies in the request
-	// 		});
-	// 		console.log(response);
-	// 		if (response.ok) {
-	// 			// Handle successful sign-out (redirect, etc.)s
-	// 			setAuthentic(false);
-	// 			navigate("/login");
-	// 		} else {
-	// 			// Handle sign-out failure
-	// 			console.error("Sign-out failed:", response.statusText);
-	// 		}
-	// 	} catch (error) {
-	// 		console.error("Sign-out error:", error.message);
-	// 	}
-	// };
-
 	const toggleNotification = () => {
 		setIsActive(!isActive);
 
-		// Simulating notifications
 		const notifications = document.querySelectorAll(".notification");
 
 		notifications.forEach((notification) => {
@@ -82,16 +59,32 @@ function Home() {
 		}, 3000);
 	};
 
-	const addPartyCode = () => {
-		alert("Added");
+	const addPartyCode = async () => {
+		try {
+			const uploadData = {
+				partyCode,
+			};
+			const response = await fetch('http://localhost:8081/addPartcodeForUser', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(uploadData),
+			});
+
+			if (response.ok) {
+				alert('PartyCode added Sucessfully');
+			} else {
+				console.error('Error sending upload data to server');
+			}
+		} catch (error) {
+			console.error('Error Adding PartyCode', error.message);
+			alert('Error uploading files. Please try again.');
+		}
+		window.location.reload();
 	}
 
-	// const UserProvider = ({ children, value }) => {
-	// 	return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
-	// };
-
 	return (
-		// <UserProvider value={{ username: name, userid: userId }}>
 		<>
 			<div className="dashboard">
 				<Sidebar />
@@ -99,26 +92,6 @@ function Home() {
 					<div className="content--header">
 						<h1 className="header--title">Dashboard</h1>
 						<div className="header--activity">
-							{/* <div className={`notification-container ${isActive ? "active" : ""}`} >
-								<CgProfile
-									className="icon profile_icon"
-									onClick={toggleNotification}
-								/>
-								<div className="notification-dropdown">
-									<div className="notification" id="notification1">
-										<ImProfile />
-										Profile
-									</div>
-									<div
-										className="notify notification"
-										id="notification2"
-										onClick={handleIconClick}
-									>
-										<FaSignOutAlt className="icon" />
-										Exit
-									</div>
-								</div>
-							</div> */}
 							<div className="search-box">
 								<input type="text" placeholder="Enter Party Code here" value={partyCode} onChange={(e) => { setPartyCode(e.target.value) }} />
 								<BiSearch className="icon" onClick={addPartyCode} />
@@ -129,7 +102,6 @@ function Home() {
 				</div>
 			</div>
 		</>
-		// </UserProvider>
 	);
 }
 

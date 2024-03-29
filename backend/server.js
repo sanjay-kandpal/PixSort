@@ -24,7 +24,7 @@ app.use(session({
 	cookie: {
 		secure: false,
 		maxAge: 1000 * 60 * 60 * 24 * 7
-	} //set the session cookie properties
+	}
 }))
 
 app.use(express.json());
@@ -101,33 +101,39 @@ db.connect((err) => {
 
 app.post('/signup', async (req, res) => {
 	try {
-		// Insert into signup table
 		const sql1 = "INSERT INTO signup(`name`,`email`,`password`) VALUES (?)";
 		const values = [req.body.name, req.body.email, req.body.password];
 		await db.query(sql1, [values]);
 
-		console.log(values)
+		try {
 
-		// Select from signup table
-		const sql2 = "SELECT * FROM signup WHERE `email` = ? AND `password` = ?";
-		const data2 = await db.query(sql2, [req.body.email, req.body.password]);
-		// const sql2 = "SELECT * FROM signup WHERE `email` = ? AND `password` = ?";
-		// const [userData] = await db.query(sql2, [req.body.email, req.body.password]);
+			const sql = "SELECT * FROM signup WHERE `email` = ? AND `password` = ?";
+			db.query(sql, [req.body.email, req.body.password], async (err, data) => {
+				if (err) {
+					console.log(err.message)
+					return res.json({ error: err.message });
+				}
+				if (data.length > 0) {
+					const useridTemp = data[0].id;
+					userid = useridTemp
+					console.log("Check from signup: " + userid)
+					const sql3 = "INSERT INTO user_access(`userid`,`partycode`) VALUES (?, '[]')";
+					const values = [useridTemp];
+					await db.query(sql3, [values]);
+
+					return res.json({ message: true });
 
 
-		console.log(data2)
-		if (data2.length > 0) {
-			const useridTemp = data2[0].id;
+				} else {
+					return res.json({ message: false });
+				}
+			})
 
-			// Insert into user_access table
-			const sql3 = "INSERT INTO user_access(`id`,`partycode`) VALUES (?, '[]')";
-			const data3 = await db.query(sql3, useridTemp);
-
-			console.log(data3);
-			return res.json(data3);
-		} else {
-			return res.json({ error: "User not found" });
+		} catch (error) {
+			console.error(error.message);
+			return res.json({ error: error.message });
 		}
+
 	} catch (error) {
 		console.error(error.message);
 		return res.json({ error: error.message });
@@ -187,7 +193,6 @@ app.get('/', (req, res) => {
 			}
 
 			if (data.length > 0) {
-				console.log("Hey" + userid)
 				let codes = JSON.parse(data[0].partycode)
 				console.log(codes.length)
 
@@ -223,6 +228,30 @@ app.get('/', (req, res) => {
 
 })
 
+app.get('/getUserData', (req, res) => {
+
+	const sql = "SELECT * FROM signup WHERE `id` = ?";
+	console.log("Check: " + userid)
+	db.query(sql, [userid], (err, data) => {
+		console.log(data)
+		if (err) {
+			console.log(err.message)
+			return res.json({ error: err.message });
+		}
+		if (data.length > 0) {
+			console.log(data[0].id)
+			console.log(data[0].name)
+
+			return res.json({
+				id: data[0].id,
+				name: data[0].name
+			});
+		} else {
+			return res.json({ message: false });
+		}
+	})
+})
+
 app.post('/login', (req, res) => {
 	const sql = "SELECT * FROM signup WHERE `email` = ? AND `password` = ?";
 	console.log(req.body.email, req.body.password)
@@ -242,6 +271,46 @@ app.post('/login', (req, res) => {
 			return res.json({ message: true });
 		} else {
 			return res.json({ message: false });
+		}
+	})
+})
+
+app.post('/addPartcodeForUser', (req, res) => {
+	console.log(req.body.partyCode);
+	const partycode = req.body.partyCode;
+
+	const sql1 = "SELECT partycode FROM user_access WHERE `userid` = ?";
+	db.query(sql1, [userid], (err, data) => {
+		if (err) {
+			console.error('MySQL query error:', err);
+			res.status(500).json({ error: 'Internal Server Error' });
+		}
+		console.log(data)
+		if (data.length > 0) {
+			let codes = JSON.parse(data[0].partycode)
+			codes.push(partycode)
+			console.log(codes)
+			let codeString = JSON.stringify(codes)
+
+
+			const sql2 = 'update user_access set partycode=? WHERE USERID=?;';
+			if (userid != 0) {
+				db.query(sql2, [codeString, userid], (err, result) => {
+					if (err) {
+						console.error('MySQL query error:', err);
+						res.status(500).json({ error: 'Internal Server Error' });
+					} else {
+						console.log('Upload data inserted into MySQL');
+						res.status(200).json({ message: 'Upload successful', user: userid });
+					}
+				});
+			} else {
+				res.status(401).json({ error: 'Unauthorized' });
+			}
+
+		} else {
+			console.error('MySQL query error:', err);
+			res.status(500).json({ error: 'Internal Server Error' });
 		}
 	})
 })

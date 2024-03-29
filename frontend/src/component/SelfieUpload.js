@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { useNavigate } from 'react-router-dom';
 import "../styles/fileUpload.css"
 import AWS from 'aws-sdk';
+import axios from "axios";
 // import { UserContext } from '../context/UserContext';
 
 const dropzoneStyle = {
@@ -54,38 +55,44 @@ function SelfieUpload() {
     const onUploadClick = async (e) => {
         e.preventDefault();
 
-        // console.log(username, userid)
-
-        if (files.length <= 1) {
-            alert("Please select minimum 2 images to upload");
-            return;
-        }
-
-        if (files.length > 20) {
-            alert("You can only upload 20 files at a time")
-            return
-        }
-
-        console.log("Uploading files:", files);
-
-        const s3 = new AWS.S3({
-            accessKeyId: ACCESS_KEY,
-            secretAccessKey: SECRET_KEY,
-            region: REGION,
-        });
-
-        const promises = files.map((file, index) => {
-            const params = {
-                Bucket: BUCKET_NAME,
-                Key: `1-Adhish/${file.name}`,
-                Body: file,
-                //   ACL: 'public-read', // Adjust the ACL based on your requirements
-            };
-
-            return s3.upload(params).promise();
-        });
-
         try {
+            const response = await axios.get("http://localhost:8081/getUserData");
+            // console.log("Response: ", response.data);
+
+            const { id, name } = response.data;
+            // console.log("user details: ", id, name);
+
+            var names = names.split(" ");
+            const firstName = names[0];
+
+            if (files.length <= 1) {
+                alert("Please select minimum 2 images to upload");
+                return;
+            }
+
+            if (files.length > 20) {
+                alert("You can only upload 20 files at a time")
+                return
+            }
+
+            console.log("Uploading files:", files);
+
+            const s3 = new AWS.S3({
+                accessKeyId: ACCESS_KEY,
+                secretAccessKey: SECRET_KEY,
+                region: REGION,
+            });
+
+            const promises = files.map((file, index) => {
+                const params = {
+                    Bucket: BUCKET_NAME,
+                    Key: `${id}-${firstName}/${file.name}`,
+                    Body: file,
+                };
+
+                return s3.upload(params).promise();
+            });
+
             await Promise.all(promises);
             console.log('Files uploaded successfully');
             setFiles([]);
