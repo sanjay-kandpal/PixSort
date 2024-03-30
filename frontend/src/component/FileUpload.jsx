@@ -6,6 +6,7 @@ import "../styles/fileUpload.css"
 // import axios from "axios";
 // import ReactS3 from "react-s3";
 import AWS from 'aws-sdk';
+import { toast } from "react-toastify";
 
 
 const dropzoneStyle = {
@@ -72,21 +73,21 @@ const FileUpload = () => {
 
 
 		if (files.length === 0) {
-			alert("Please select a file to upload");
+			toast.error("Please select a file to upload");
 			return;
 		}
 
 		if (files.length > 20) {
-			alert("You can only upload 20 files at a time")
+			toast.error("You can only upload 20 files at a time")
 			return
 		}
 
 		if (!title) {
-			alert("Please give a title to the album")
+			toast.error("Please give a title to the album")
 			return
 		}
 
-		console.log("Uploading files:", files);
+		toast.promise("Uploading files:", files);
 
 		const s3 = new AWS.S3({
 			accessKeyId: ACCESS_KEY,
@@ -122,13 +123,13 @@ const FileUpload = () => {
 			});
 
 			if (response.ok) {
-				console.log('Upload data sent to server successfully');
+				toast.error('Upload data sent to server successfully');
 			} else {
-				console.error('Error sending upload data to server');
+				toast.error('Error sending upload data to server');
 			}
 		} catch (error) {
 			console.error('Error uploading files:', error.message);
-			alert('Error uploading files. Please try again.');
+			toast.error('Error uploading files. Please try again.',error.message);
 		}
 	};
 

@@ -5,8 +5,11 @@ import { FaXTwitter } from "react-icons/fa6";
 import Validation from "./LoginValidation";
 import "../styles/AuthForm.css";
 import girlPhoto from "../images/girlPhotoGrapher.jpg";
+import boyPhoto from '../images/boyPhotoGrapher.jpg'
 import axios from "axios";
 import logo from "../images/logo.png";
+import { toast } from "react-toastify";
+
 
 function Login() {
   const [values, setValues] = useState({
@@ -29,6 +32,7 @@ function Login() {
       .then((res) => {
         console.log(res);
         if (res.data.valid == true) {
+          toast.success('Login Successfully')
           navigate("/");
         } else {
           navigate("/Login");
@@ -48,30 +52,32 @@ function Login() {
         .then((res) => {
           console.log(res.data);
           if (res.data.message === true) {
+            toast.success('Login Successfully')
             navigate("/");
           } else {
-            alert("Invalid Credentials");
+            toast('Login Failed ')  
           }
         })
         .catch((err) => {
           console.log(err);
+          toast.error(err)
         });
     }
   };
 
   return (
     <>
-      <img src={logo} id="logo" />
+      <img src={logo} id="logo" alt="logo" />
 
       <div className="flex-container">
         <div className="sidebar-img">
           <img
-            src="https://images.unsplash.com/photo-1493863641943-9b68992a8d07?q=80&w=2058&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="photographer Image "
+            src={boyPhoto}
+            alt="photographer Boy"
           />
         </div>
         <div className="sidebar-img">
-          <img src={girlPhoto} alt="photographer Girl Image" />
+          <img src={girlPhoto} alt="photographer Girl" />
         </div>
         <div className="sidebar-main">
           <div className="flex-login">

@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import { FaUsersViewfinder } from "react-icons/fa6";
 import { ImProfile } from "react-icons/im";
 import { FaSignOutAlt } from "react-icons/fa";
+import {toast} from 'react-toastify'
+
 
 const Sidebar = () => {
 
@@ -24,7 +26,9 @@ const Sidebar = () => {
             console.log(response);
             if (response.ok) {
                 // Handle successful sign-out (redirect, etc.)s
+                toast.success('LOGOUT Successfully')
                 setAuthentic(false);
+                
                 navigate("/login");
             } else {
                 // Handle sign-out failure
@@ -66,6 +70,7 @@ const Sidebar = () => {
                     <h3>Exit</h3>
                 </div>
             </div>
+            
         </div>
     );
 };

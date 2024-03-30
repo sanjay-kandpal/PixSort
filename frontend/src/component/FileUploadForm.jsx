@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import "../styles/FileUploadForm.css";
 import Sidebar from "./Sidebar";
-
+import {toast} from 'react-toastify'
 const FileUploadForm = ({ onFileUpload }) => {
 
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -32,7 +32,7 @@ const FileUploadForm = ({ onFileUpload }) => {
   };
   const handleUpload = () => {
     if (selectedFiles.length === 0) {
-      alert('Select images.');
+      toast.error('Select images.');
       return;
     }
     const formData = new FormData();
@@ -46,7 +46,7 @@ const FileUploadForm = ({ onFileUpload }) => {
     if (formDataLength > 0) {
       onFileUpload(formData);
     } else {
-      alert('Select images.');
+      toast.error('Select images.');
       return;
     }
     if (fileInputRef.current) {

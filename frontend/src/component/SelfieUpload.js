@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import "../styles/fileUpload.css"
 import AWS from 'aws-sdk';
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 // import { UserContext } from '../context/UserContext';
 
 const dropzoneStyle = {
@@ -66,12 +67,12 @@ function SelfieUpload() {
             const firstName = names[0];
 
             if (files.length <= 1) {
-                alert("Please select minimum 2 images to upload");
+                toast("Please select minimum 2 images to upload");
                 return;
             }
 
             if (files.length > 20) {
-                alert("You can only upload 20 files at a time")
+                toast("You can only upload 20 files at a time")
                 return
             }
 
@@ -95,11 +96,12 @@ function SelfieUpload() {
 
             await Promise.all(promises);
             console.log('Files uploaded successfully');
+            toast('File Uploaded Successfully')
             setFiles([]);
             navigate('/')
         } catch (error) {
             console.error('Error uploading files:', error.message);
-            alert('Error uploading files. Please try again.');
+            toast('Error uploading files. Please try again.');
         }
     };
 

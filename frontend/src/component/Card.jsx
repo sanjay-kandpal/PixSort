@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { GrGallery } from "react-icons/gr";
 import { BiSearch } from "react-icons/bi";
-
+import {toast} from 'react-toastify';
 const Card = ({ codes }) => {
 
     const [search, setSearch] = useState("")
 
     if (!Array.isArray(codes)) {
-        console.error("codes prop is not an array:", codes);
+        toast.error("codes prop is not an array:", codes);
         return null; // or handle the error in another way
     }
 

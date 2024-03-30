@@ -8,7 +8,7 @@ import "../App.css";
 import { CgProfile } from "react-icons/cg";
 import { BiSearch } from "react-icons/bi";
 import { FaSignOutAlt } from "react-icons/fa"
-
+import {toast} from 'react-toastify'
 
 function Home() {
 
@@ -32,6 +32,7 @@ function Home() {
 					setUserId(res.data.cookie.userid);
 					setAuthentic(true);
 					setCodes(res.data.userCodes)
+					
 					// console.log(codes[0])
 				} else {
 					navigate("/Login");
@@ -73,20 +74,22 @@ function Home() {
 			});
 
 			if (response.ok) {
-				alert('PartyCode added Sucessfully');
+				toast.success("PartyCode added Successfully");
 			} else {
-				console.error('Error sending upload data to server');
+				toast.success("Error adding PartyCode");
 			}
 		} catch (error) {
 			console.error('Error Adding PartyCode', error.message);
-			alert('Error uploading files. Please try again.');
+			toast("Error adding PartyCode. Please try again.");
 		}
 		window.location.reload();
 	}
 
 	return (
 		<>
+		    {/* {isAuthenticated && <ToastContainer />} */}
 			<div className="dashboard">
+			
 				<Sidebar />
 				<div className="dashboard--content">
 					<div className="content--header">
