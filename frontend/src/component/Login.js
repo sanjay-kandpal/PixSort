@@ -9,6 +9,7 @@ import boyPhoto from '../images/boyPhotoGrapher.jpg'
 import axios from "axios";
 import logo from "../images/logo.png";
 import { toast } from "react-toastify";
+import { useUserData } from '../context/UserContext';
 
 
 function Login() {
@@ -18,6 +19,7 @@ function Login() {
   });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const { setUserData } = useUserData();
   const handleInput = (event) => {
     setValues((prev) => ({
       ...prev,
@@ -31,8 +33,8 @@ function Login() {
       .get("http://localhost:8081/")
       .then((res) => {
         console.log(res);
-        if (res.data.valid == true) {
-          toast.success('Login Successfully')
+        if (res.data.valid === true) {
+          toast.success('Login Successfully') 
           navigate("/");
         } else {
           navigate("/Login");
@@ -53,6 +55,7 @@ function Login() {
           console.log(res.data);
           if (res.data.message === true) {
             toast.success('Login Successfully')
+            setUserData(res.data)
             navigate("/");
           } else {
             toast('Login Failed ')  
@@ -66,6 +69,7 @@ function Login() {
   };
 
   return (
+   
     <>
       <img src={logo} id="logo" alt="logo" />
 
@@ -212,6 +216,8 @@ function Login() {
         </div>
       </div>
     </>
+    
   );
 }
+
 export default Login;

@@ -2,8 +2,11 @@ import React from 'react'
 import Sidebar from './Sidebar'
 import "../styles/profile.css"
 import ProfilePicture from "../images/profilePicture.jpg"
+import { useUserData } from '../context/UserContext';
 
 function Profile() {
+    const { userData } = useUserData();
+	console.log(userData)
     return (
         <div className='dashboard'>
             <Sidebar />
@@ -17,9 +20,9 @@ function Profile() {
                             <img src={ProfilePicture} alt="profile photo" />
                         </div>
                         <div className="infoContainer">
-                            <div className="name">Adhish Bahl</div>
-                            <div className="email">adhishbahl0gmail.com</div>
-                            <div className="mobile">9462849725</div>
+                            <div className="name">{userData.name}</div>
+                            <div className="email">{userData.email[0]}</div>
+                            <div className="mobile">{userData.password[0]}</div>
                             <div className="gender">Male</div>
                         </div>
                         <div className="btn-container">

@@ -10,8 +10,10 @@ import { BiSearch } from "react-icons/bi";
 import { FaSignOutAlt } from "react-icons/fa"
 import {toast} from 'react-toastify'
 
-function Home() {
 
+function Home() {
+    
+	
 	const [name, setName] = useState("");
 	const [userId, setUserId] = useState("");
 	const [partyCode, setPartyCode] = useState("");
@@ -19,7 +21,7 @@ function Home() {
 	const [isAuthenticated, setAuthentic] = useState(false);
 	const [codes, setCodes] = useState({});
 	const navigate = useNavigate();
-
+    
 	axios.defaults.withCredentials = true;
 
 	useEffect(() => {

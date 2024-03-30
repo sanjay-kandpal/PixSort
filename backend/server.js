@@ -262,13 +262,14 @@ app.post('/login', (req, res) => {
 			return res.json({ error: err.message });
 		}
 		if (data.length > 0) {
-			console.log(data)
+			console.log('true')
 			req.session.username = data[0].name;
 			req.session.userid = data[0].id;
 			userid = req.session.userid;
 			console.log(req.session.username);
 			console.log(req.session.userid);
-			return res.json({ message: true });
+
+			return res.json({ message: true,email: req.body.email,password: req.body.password,name: data[0].name });
 		} else {
 			return res.json({ message: false });
 		}
