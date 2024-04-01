@@ -21,7 +21,7 @@ function Home() {
 	const [isAuthenticated, setAuthentic] = useState(false);
 	const [codes, setCodes] = useState({});
 	const navigate = useNavigate();
-    
+	
 	axios.defaults.withCredentials = true;
 
 	useEffect(() => {
@@ -34,8 +34,6 @@ function Home() {
 					setUserId(res.data.cookie.userid);
 					setAuthentic(true);
 					setCodes(res.data.userCodes)
-					
-					// console.log(codes[0])
 				} else {
 					navigate("/Login");
 				}
@@ -63,6 +61,7 @@ function Home() {
 	};
 
 	const addPartyCode = async () => {
+
 		try {
 			const uploadData = {
 				partyCode,
@@ -84,7 +83,7 @@ function Home() {
 			console.error('Error Adding PartyCode', error.message);
 			toast("Error adding PartyCode. Please try again.");
 		}
-		window.location.reload();
+		// window.location.reload();
 	}
 
 	return (

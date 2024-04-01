@@ -6,6 +6,9 @@ const session = require('express-session');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookie = require('cookie');
+// import axios from "axios";
+const axios = require('axios');
+const fetch = require('node-fetch'); 
 
 const app = express();
 
@@ -276,44 +279,83 @@ app.post('/login', (req, res) => {
 	})
 })
 
-app.post('/addPartcodeForUser', (req, res) => {
+app.post('/addPartcodeForUser', async (req, res) => {
 	console.log(req.body.partyCode);
 	const partycode = req.body.partyCode;
 
-	const sql1 = "SELECT partycode FROM user_access WHERE `userid` = ?";
-	db.query(sql1, [userid], (err, data) => {
-		if (err) {
-			console.error('MySQL query error:', err);
-			res.status(500).json({ error: 'Internal Server Error' });
-		}
-		console.log(data)
-		if (data.length > 0) {
-			let codes = JSON.parse(data[0].partycode)
-			codes.push(partycode)
-			console.log(codes)
-			let codeString = JSON.stringify(codes)
+
+	// try {
+	// 	const response = await axios.post("https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/", {
+	// 	// const response = await axios.post("arn:aws:execute-api:us-east-1:533267403922:38sglfeq52/*/OPTIONS/compareFaces", {
+	// 		userid: userid,
+	// 		partycode: partycode
+	// 	});
+	// 	// setResponseData(response.data);
+	// 	console.log(response.data)
+	// 	res.status(200).json({ message: 'Upload successful', res: response });
+	// 	// res.status(200).json({ message: 'Upload successful', user: userid });
+	//   } catch (error) {
+	// 	res.status(401).json({ error: 'Unauthorized' });
+	// 	console.error("Error:", error);
+	//   }
+
+	  try {
+		const response = await fetch('https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/', {
+		  method: 'POST',
+		  headers: {
+			'Content-Type': 'application/json'
+		  },
+		  body: JSON.stringify({ 
+			userid: userid,
+			partycode: partycode
+		   })
+		});
+	
+		const data = await response.json();
+		res.json(data);
+		console.log(response)
+	  } catch (error) {
+		console.error('Error:', error);
+		res.status(500).json({ error: 'Internal Server Error' });
+	  }
 
 
-			const sql2 = 'update user_access set partycode=? WHERE USERID=?;';
-			if (userid != 0) {
-				db.query(sql2, [codeString, userid], (err, result) => {
-					if (err) {
-						console.error('MySQL query error:', err);
-						res.status(500).json({ error: 'Internal Server Error' });
-					} else {
-						console.log('Upload data inserted into MySQL');
-						res.status(200).json({ message: 'Upload successful', user: userid });
-					}
-				});
-			} else {
-				res.status(401).json({ error: 'Unauthorized' });
-			}
 
-		} else {
-			console.error('MySQL query error:', err);
-			res.status(500).json({ error: 'Internal Server Error' });
-		}
-	})
+
+	// const sql1 = "SELECT partycode FROM user_access WHERE `userid` = ?";
+	// db.query(sql1, [userid], (err, data) => {
+	// 	if (err) {
+	// 		console.error('MySQL query error:', err);
+	// 		res.status(500).json({ error: 'Internal Server Error' });
+	// 	}
+	// 	console.log(data)
+	// 	if (data.length > 0) {
+	// 		let codes = JSON.parse(data[0].partycode)
+	// 		codes.push(partycode)
+	// 		console.log(codes)
+	// 		let codeString = JSON.stringify(codes)
+
+
+	// 		const sql2 = 'update user_access set partycode=? WHERE USERID=?;';
+	// 		if (userid != 0) {
+	// 			db.query(sql2, [codeString, userid], (err, result) => {
+	// 				if (err) {
+	// 					console.error('MySQL query error:', err);
+	// 					res.status(500).json({ error: 'Internal Server Error' });
+	// 				} else {
+	// 					console.log('Upload data inserted into MySQL');
+	// 					res.status(200).json({ message: 'Upload successful', user: userid });
+	// 				}
+	// 			});
+	// 		} else {
+	// 			res.status(401).json({ error: 'Unauthorized' });
+	// 		}
+
+	// 	} else {
+	// 		console.error('MySQL query error:', err);
+	// 		res.status(500).json({ error: 'Internal Server Error' });
+	// 	}
+	// })
 })
 
 app.post('/upload', (req, res) => {

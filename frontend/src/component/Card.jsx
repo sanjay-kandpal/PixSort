@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { GrGallery } from "react-icons/gr";
 import { BiSearch } from "react-icons/bi";
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+
+
 const Card = ({ codes }) => {
 
     const [search, setSearch] = useState("")
@@ -9,6 +12,10 @@ const Card = ({ codes }) => {
     if (!Array.isArray(codes)) {
         toast.error("codes prop is not an array:", codes);
         return null; // or handle the error in another way
+    }
+
+    const openAlbum = (partycode) => {
+
     }
 
 
@@ -20,15 +27,17 @@ const Card = ({ codes }) => {
             </div>
             <div className="card--container">
                 {codes.map((code) => (
-                    <div className="card">
-                        {/* <div className="card--cover">{item.icon}</div> */}
-                        <div className="card--title">
-                            <h3>{code.title}</h3>
+                     <Link to={`/album/${code.partycode}`} key={code.partycode}>
+                        <div className="card">
+                            {/* <div className="card--cover">{item.icon}</div> */}
+                            <div className="card--title">
+                                <h3>{code.title}</h3>
+                            </div>
+                            <div className="card--body">
+                                <p>{code.partycode}</p>
+                            </div>
                         </div>
-                        <div className="card--body">
-                            <p>{code.partycode}</p>
-                        </div>
-                    </div>
+                    </Link>
                 )
                 )}
             </div>

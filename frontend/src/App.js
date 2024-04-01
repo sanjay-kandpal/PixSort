@@ -8,8 +8,13 @@ import SelfieUpload from "./component/SelfieUpload";
 import LandingPage from "./component/LandingPage";
 import Profile from "./component/Profile";
 import { UserProvider } from './context/UserContext';
+import Album from "./component/Album";
+// var cors = require('cors')
+// app.use(cors())
 
 function App() {
+
+
   return (
     <BrowserRouter>
     <UserProvider>
@@ -22,7 +27,7 @@ function App() {
         <Route path="/selfImageUpload" element={<SelfieUpload />} />
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/profile" element={<Profile />} />
-      
+        <Route path="/album/:partycode" element={<Album />} />
       </Routes>
       </UserProvider>
     </BrowserRouter>

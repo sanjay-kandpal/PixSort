@@ -60,11 +60,14 @@ function SelfieUpload() {
             const response = await axios.get("http://localhost:8081/getUserData");
             // console.log("Response: ", response.data);
 
-            const { id, name } = response.data;
+            var { id, name } = response.data;
             // console.log("user details: ", id, name);
 
-            var names = names.split(" ");
-            const firstName = names[0];
+            console.log(name)
+            if(/\s/.test(name)) {
+                var names = names.split(" ");
+                name = names[0]
+            }
 
             if (files.length <= 1) {
                 toast("Please select minimum 2 images to upload");
@@ -87,7 +90,7 @@ function SelfieUpload() {
             const promises = files.map((file, index) => {
                 const params = {
                     Bucket: BUCKET_NAME,
-                    Key: `${id}-${firstName}/${file.name}`,
+                    Key: `${id}-${name}/${file.name}`,
                     Body: file,
                 };
 
