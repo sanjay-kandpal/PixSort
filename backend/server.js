@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const cookie = require('cookie');
 // import axios from "axios";
 const axios = require('axios');
-const fetch = require('node-fetch'); 
+const fetch = require('node-fetch');
 
 const app = express();
 
@@ -272,7 +272,7 @@ app.post('/login', (req, res) => {
 			console.log(req.session.username);
 			console.log(req.session.userid);
 
-			return res.json({ message: true,email: req.body.email,password: req.body.password,name: data[0].name });
+			return res.json({ message: true, email: req.body.email, password: req.body.password, name: data[0].name });
 		} else {
 			return res.json({ message: false });
 		}
@@ -299,25 +299,130 @@ app.post('/addPartcodeForUser', async (req, res) => {
 	// 	console.error("Error:", error);
 	//   }
 
-	  try {
-		const response = await fetch('https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/', {
-		  method: 'POST',
-		  headers: {
+	//   try {
+	// 	const response = await fetch('https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/', {
+	// 	  method: 'POST',
+	// 	  headers: {
+	// 		'Content-Type': 'application/json'
+	// 	  },
+	// 	  body: JSON.stringify({ 
+	// 		userid: userid,
+	// 		partycode: partycode
+	// 	   })
+	// 	});
+
+	// 	const data = await response.json();
+	// 	res.json(data);
+	// 	console.log(response)
+	//   } catch (error) {
+	// 	console.error('Error:', error);
+	// 	res.status(500).json({ error: 'Internal Server Error' });
+	//   }
+
+
+
+
+
+
+
+	// try {
+	// 	const apiUrl = 'https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/';
+
+	// 	const postData = {
+	// 	  userid: userid,
+	// 	  partycode: partycode
+	// 	};
+
+	// 	const response = await axios.post(apiUrl, postData);
+
+	// 	// Handle response from the API Gateway
+	// 	console.log('Response from API Gateway:', response.data);
+
+	// 	// Return response data if needed
+	// 	// return response.data;
+	//   } catch (error) {
+	// 	// Handle errors
+	// 	console.error('Error making POST request:', error);
+	// 	throw error; // Rethrow error if needed
+	//   }
+
+
+	// fetch(`https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/userid=${userid}&partycode=${partycode}`, {
+	// fetch(`https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/`, {
+	//   method: 'POST',
+	//   headers: {
+	//     'Accept': 'application/json',
+	//     'Content-Type': 'application/json'
+	//   },
+	// //   body: JSON.stringify{
+	//   body: {
+	// 	userid: userid, 
+	// 	partycode: partycode
+	// }
+	// });
+
+
+	// fetch(`https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/`, {
+	// 	method: 'POST',
+	// 	headers: {
+	// 		'Accept': 'application/json',
+	// 		'Content-Type': 'application/json'
+	// 	},
+	// 	body: JSON.stringify({
+	// 		userid: userid,
+	// 		partycode: partycode
+	// 	})
+	// })
+	// 	.then(response => {
+	// 		if (!response.ok) {
+	// 			throw new Error('Network response was not ok');
+	// 		}
+	// 		return response.json();
+	// 	})
+	// 	.then(data => {
+	// 		console.log('Response from API:', data);
+	// 	})
+	// 	.catch(error => {
+	// 		console.error('There was a problem with the fetch operation:', error);
+	// 	})
+
+
+
+	fetch(`https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/`, {
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
 			'Content-Type': 'application/json'
-		  },
-		  body: JSON.stringify({ 
+		},
+		body: JSON.stringify({
 			userid: userid,
 			partycode: partycode
-		   })
+		})
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log('Response from API:', data);
+		})
+		.catch(error => {
+			console.error('There was a problem with the fetch operation:', error);
 		});
-	
-		const data = await response.json();
-		res.json(data);
-		console.log(response)
-	  } catch (error) {
-		console.error('Error:', error);
-		res.status(500).json({ error: 'Internal Server Error' });
-	  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
