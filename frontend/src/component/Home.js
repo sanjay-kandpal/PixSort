@@ -110,7 +110,7 @@ function Home() {
 			console.error('Error Adding PartyCode', error.message);
 			toast("Error adding PartyCode. Please try again.");
 		}
-		// window.location.reload();
+		window.location.reload();
 	}
 
 	return (
