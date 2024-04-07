@@ -1,46 +1,46 @@
-.profileContainer {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.profileCard {
+.profile-dashboard{
     border: 1px solid black;
-    padding: 3rem;
-    border-radius: 10px;
-
+}
+.personal-information{
+    border: 1px solid black;
+    min-height: 50vh;
+    position: absolute;
+    left: 30%;
+    top: 15%;
+    width: 50%;
 }
 
-.profileCard .imageDiv img {
-    height: 150px;
-    margin-bottom: 1.5rem;
+.flex_container{
+    display: flex;
+    flex-direction: row;
+}
+
+.profile_pic{
+    border: 1px solid black;
+    align-items: center;
+    margin: 1.2em;
+
+    width: 100%;
+}
+.profile-img{
+    margin: 1.2em;
+    border: 1px solid black;
+    width: 30%;
+    /* height: 100%; */
+}
+.profile-img img{
+    
     border-radius: 50%;
+    
+    margin: 0 auto;
 }
-
-.profileCard .infoContainer div {
+.profile-user-name{
+    border: 1px solid black;
+    width: 100%;
     text-align: center;
 }
-
-.profileCard .infoContainer .name {
-    font-weight: 600;
-    font-size: 1.5rem;
-}
-
-.profileCard .infoContainer .email,
-.mobile,
-.gender {
-    font-weight: 300;
-}
-
-.btn-container {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    flex-direction: column;
-}
-
-.btn-container button {
-    margin: .5rem 0rem;
-    width: 100%;
+.profile-desc{
+    width: 60%;
+    margin: 1.2em;
+    border: 1px solid black;
 }

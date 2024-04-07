@@ -1,13 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useState, createContext } from "react";
+import React, { useEffect, useState, } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import { ImProfile } from "react-icons/im";
+
 import Content from "./Content";
 import "../App.css";
-import { CgProfile } from "react-icons/cg";
+
 import { BiSearch } from "react-icons/bi";
-import { FaSignOutAlt } from "react-icons/fa"
+
 import {toast} from 'react-toastify'
 
 
@@ -104,7 +104,7 @@ function Home() {
 			if (response.ok) {
 				toast.success("PartyCode added Successfully");
 			} else {
-				toast.success("Error adding PartyCode");
+				toast.error("Error adding PartyCode");
 			}
 		} catch (error) {
 			console.error('Error Adding PartyCode', error.message);

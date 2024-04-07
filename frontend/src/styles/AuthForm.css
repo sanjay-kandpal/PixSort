@@ -33,6 +33,18 @@
 .flex-login{
     padding: 1.2em;
     /* border: 1px solid black; */
-    width: 100%;
-    
+    width: 100%; 
 }
+
+.password-container {
+    position: relative;
+}
+  
+.password-toggle-icon {
+    position: absolute;
+    right: 15px; /* Adjust as needed */
+    top: 65%; /* Adjust as needed */
+    transform: translateY(-50%); /* Center vertically */
+    cursor: pointer;
+}
+  

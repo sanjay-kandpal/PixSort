@@ -10,26 +10,28 @@ function Profile() {
     return (
         <div className='dashboard'>
             <Sidebar />
-            <div className="dashboard--content">
-                <div className="content--header">
-                    <h1 className="header--title">Profile</h1>
-                </div>
-                <div className="profileContainer">
-                    <div className="profileCard">
-                        <div className="imageDiv">
-                            <img src={ProfilePicture} alt="profile photo" />
+            <div className="dashboard--content profile-dashboard">
+                <div className='personal-information flex_container'>
+                    <div className='profile_pic flex_container'>
+                     <div className='profile-img'>
+                        <img src={ProfilePicture} alt="profile picture" />
+                        <div className='profile-user-name'>
+                            <span className='name'>Name: {userData.name}</span>
                         </div>
-                        <div className="infoContainer">
-                            <div className="name">{userData.name}</div>
-                            <div className="email">{userData.email[0]}</div>
-                            <div className="mobile">{userData.password[0]}</div>
-                            <div className="gender">Male</div>
+                     </div>
+                     <div className='profile-desc'>
+                       <div className='prof'>
+                            <span className='n'>Email: {userData.email}</span>
+                            <br></br>
+                            <span className='n'>Password: {userData.password}</span>
+                            <br></br>
+                            <span className='n'></span>
+                            <br></br>
+
                         </div>
-                        <div className="btn-container">
-                            <button>Edit Profile</button>
-                            <button>Upload Image</button>
-                        </div>
+                     </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
