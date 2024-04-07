@@ -120,7 +120,7 @@ app.post('/signup', async (req, res) => {
 					const useridTemp = data[0].id;
 					userid = useridTemp
 					console.log("Check from signup: " + userid)
-					const sql3 = "INSERT INTO user_access(`userid`,`partycode`) VALUES (?, '[]')";
+					const sql3 = "INSERT INTO user_access(`userid`,`partycode`) VALUES (?, '{}')";
 					const values = [useridTemp];
 					await db.query(sql3, [values]);
 
@@ -186,9 +186,54 @@ app.post('/signup', async (req, res) => {
 
 app.get('/', (req, res) => {
 
-	if (req.session.username) {
+	// if (req.session.username) {
 
-		const sql = "SELECT * FROM user_access WHERE `userid` = ?";
+	// 	const sql = "SELECT * FROM user_access WHERE `userid` = ?";
+	// 	db.query(sql, userid, (err, data) => {
+	// 		if (err) {
+	// 			console.log(err.message);
+	// 			return res.json({ valid: false, error: err.message });
+	// 		}
+
+	// 		if (data.length > 0) {
+	// 			let codes = JSON.parse(data[0].partycode)
+	// 			console.log(codes.length)
+
+	// 			if (codes.length === 0) {
+	// 				// Handle the case where partycode array is empty
+	// 				// return res.json({ valid: false, error: 'Partycode array is empty' });
+	// 				return res.json({ valid: true, username: req.session.username, cookie: req.cookies, userCodes: [] });
+	// 			}
+
+	// 			const placeholders = Array.from({ length: codes.length }, (_, i) => '?').join(',');
+
+	// 			const sql = `SELECT partycode, title FROM albums WHERE \`partycode\` IN (${placeholders})`;
+	// 			db.query(sql, codes, (err, data) => {
+	// 				if (err) {
+	// 					return res.json({ valid: false, error: err.message });
+	// 				}
+	// 				if (data.length > 0) {
+	// 					const userCodes = data.map(row => ({ title: row.title, partycode: row.partycode }));
+	// 					return res.json({ valid: true, username: req.session.username, cookie: req.cookies, userCodes: userCodes });
+	// 				} else {
+	// 					return res.json({ valid: false });
+	// 				}
+	// 			})
+
+	// 		} else {
+	// 			return res.json({ valid: false });
+	// 		}
+	// 	})
+
+	// } else {
+	// 	return res.json({ valid: false });
+	// }
+
+
+
+
+	if (req.session.username) {
+		const sql = "SELECT partycode FROM user_access WHERE `userid` = ?";
 		db.query(sql, userid, (err, data) => {
 			if (err) {
 				console.log(err.message);
@@ -196,38 +241,37 @@ app.get('/', (req, res) => {
 			}
 
 			if (data.length > 0) {
-				let codes = JSON.parse(data[0].partycode)
-				console.log(codes.length)
+				let codes = JSON.parse(data[0].partycode);
+				const userCodes = Object.keys(codes); // Retrieve just the keys from the JSON object
 
-				if (codes.length === 0) {
-					// Handle the case where partycode array is empty
-					// return res.json({ valid: false, error: 'Partycode array is empty' });
+				if (userCodes.length === 0) {
 					return res.json({ valid: true, username: req.session.username, cookie: req.cookies, userCodes: [] });
 				}
 
-				const placeholders = Array.from({ length: codes.length }, (_, i) => '?').join(',');
+				const placeholders = Array.from({ length: userCodes.length }, (_, i) => '?').join(',');
 
 				const sql = `SELECT partycode, title FROM albums WHERE \`partycode\` IN (${placeholders})`;
-				db.query(sql, codes, (err, data) => {
+				db.query(sql, userCodes, (err, data) => {
 					if (err) {
 						return res.json({ valid: false, error: err.message });
 					}
 					if (data.length > 0) {
-						const userCodes = data.map(row => ({ title: row.title, partycode: row.partycode }));
-						return res.json({ valid: true, username: req.session.username, cookie: req.cookies, userCodes: userCodes });
+						const userCodesWithTitles = data.map(row => ({ title: row.title, partycode: row.partycode }));
+						return res.json({ valid: true, username: req.session.username, cookie: req.cookies, userCodes: userCodesWithTitles });
 					} else {
 						return res.json({ valid: false });
 					}
-				})
+				});
 
 			} else {
 				return res.json({ valid: false });
 			}
-		})
+		});
 
 	} else {
 		return res.json({ valid: false });
 	}
+
 
 })
 
@@ -279,6 +323,34 @@ app.post('/login', (req, res) => {
 	})
 })
 
+app.post('/getImageList', (req, res) => {
+    const { partycode } = req.body;
+    // const userid = req.session.userid;
+
+    if (!partycode || !userid) {
+        return res.status(400).json({ error: 'Missing partycode or userid' });
+    }
+
+    const sql = "SELECT partycode FROM user_access WHERE `userid` = ?";
+    db.query(sql, [userid], (err, data) => {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: err.message });
+        }
+        if (data.length > 0) {
+            let codes = JSON.parse(data[0].partycode);
+            if (codes.hasOwnProperty(partycode)) {
+                const images = codes[partycode];
+                return res.status(200).json({ images });
+            } else {
+                return res.status(404).json({ error: 'Party code not found' });
+            }
+        } else {
+            return res.status(404).json({ error: 'User not found' });
+        }
+    });
+});
+
 app.post('/addPartcodeForUser', async (req, res) => {
 	console.log(req.body.partyCode);
 	const partycode = req.body.partyCode;
@@ -299,25 +371,27 @@ app.post('/addPartcodeForUser', async (req, res) => {
 	// 	console.error("Error:", error);
 	//   }
 
-	//   try {
-	// 	const response = await fetch('https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/', {
-	// 	  method: 'POST',
-	// 	  headers: {
-	// 		'Content-Type': 'application/json'
-	// 	  },
-	// 	  body: JSON.stringify({ 
-	// 		userid: userid,
-	// 		partycode: partycode
-	// 	   })
+	// try {
+	// 	const response = await fetch('https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces', {
+	// 		method: 'POST',
+	// 		headers: {
+	// 			'Content-Type': 'application/json',
+	// 			'userid': userid,
+	// 			'partycode': partycode
+	// 		},
+	// 		body: JSON.stringify({})
 	// 	});
 
 	// 	const data = await response.json();
 	// 	res.json(data);
 	// 	console.log(response)
-	//   } catch (error) {
+	// } catch (error) {
 	// 	console.error('Error:', error);
 	// 	res.status(500).json({ error: 'Internal Server Error' });
-	//   }
+	// };
+
+	imageList = ['IMG20230909115049.jpg', 'WIN_20230216_09_22_13_Pro.jpg', 'shivanshi.jpg']
+
 
 
 
@@ -388,29 +462,29 @@ app.post('/addPartcodeForUser', async (req, res) => {
 
 
 
-	fetch(`https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/`, {
-		method: 'POST',
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			userid: userid,
-			partycode: partycode
-		})
-	})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			return response.json();
-		})
-		.then(data => {
-			console.log('Response from API:', data);
-		})
-		.catch(error => {
-			console.error('There was a problem with the fetch operation:', error);
-		});
+	// fetch(`https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/`, {
+	// 	method: 'POST',
+	// 	headers: {
+	// 		'Accept': 'application/json',
+	// 		'Content-Type': 'application/json'
+	// 	},
+	// 	body: JSON.stringify({
+	// 		userid: userid,
+	// 		partycode: partycode
+	// 	})
+	// })
+	// 	.then(response => {
+	// 		if (!response.ok) {
+	// 			throw new Error('Network response was not ok');
+	// 		}
+	// 		return response.json();
+	// 	})
+	// 	.then(data => {
+	// 		console.log('Response from API:', data);
+	// 	})
+	// 	.catch(error => {
+	// 		console.error('There was a problem with the fetch operation:', error);
+	// 	})
 
 
 
@@ -421,11 +495,7 @@ app.post('/addPartcodeForUser', async (req, res) => {
 
 
 
-
-
-
-
-
+	//FINAL - THIS IS WORKING
 
 	// const sql1 = "SELECT partycode FROM user_access WHERE `userid` = ?";
 	// db.query(sql1, [userid], (err, data) => {
@@ -461,6 +531,42 @@ app.post('/addPartcodeForUser', async (req, res) => {
 	// 		res.status(500).json({ error: 'Internal Server Error' });
 	// 	}
 	// })
+
+
+	const sql1 = "SELECT partycode FROM user_access WHERE `userid` = ?";
+	db.query(sql1, [userid], (err, data) => {
+		if (err) {
+			console.error('MySQL query error:', err);
+			res.status(500).json({ error: 'Internal Server Error' });
+			return;
+		}
+
+		let partyCodeJSON = {};
+		if (data.length > 0) {
+			partyCodeJSON = JSON.parse(data[0].partycode || '{}');
+		}
+
+		// Add or update the list of images for the given party code
+		partyCodeJSON[partycode] = imageList;
+
+		// Convert the JSON object back to a string
+		const updatedPartyCodeString = JSON.stringify(partyCodeJSON);
+
+		const sql2 = 'UPDATE user_access SET partycode=? WHERE userid=?;';
+		db.query(sql2, [updatedPartyCodeString, userid], (err, result) => {
+			if (err) {
+				console.error('MySQL query error:', err);
+				res.status(500).json({ error: 'Internal Server Error' });
+				return;
+			}
+
+			console.log('Upload data inserted into MySQL');
+			res.status(200).json({ message: 'Upload successful', user: userid });
+		});
+	});
+
+
+
 })
 
 app.post('/upload', (req, res) => {
@@ -515,10 +621,6 @@ app.post('/upload', (req, res) => {
 	} else {
 		res.status(401).json({ error: 'Unauthorized' });
 	}
-
-
-
-
 });
 
 
