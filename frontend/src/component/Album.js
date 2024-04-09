@@ -5,6 +5,8 @@ import AWS from 'aws-sdk';
 import Sidebar from './Sidebar';
 import Switch from "react-switch";
 import download from "../images/download.svg"
+import JSZip from "jszip";
+import { saveAs } from 'file-saver';
 
 
 function Album() {
@@ -67,9 +69,30 @@ function Album() {
         setChecked(checked);
     };
 
+    const handleDownload = async () => {
+        try {
+            const zip = new JSZip();
+            const promises = [];
+
+            images.forEach((image, index) => {
+                if (!checked || (checked && matchImg.includes(image.name))) {
+                    const filename = `image_${index + 1}.jpg`; // Change the filename as needed
+                    const promise = fetch(image.url)
+                        .then(response => response.blob())
+                        .then(blob => zip.file(filename, blob));
+                    promises.push(promise);
+                }
+            });
+
+            await Promise.all(promises);
+            const zipBlob = await zip.generateAsync({ type: "blob" });
+            saveAs(zipBlob, "images.zip");
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     return (
-
-
         <>
             <div className="dashboard">
                 <Sidebar />
@@ -81,8 +104,8 @@ function Album() {
                             <h5 className='mx-2'>Only Mine</h5>
                         </label>
                     </div>
-                    <div className='text-right mb-5'>
-                        <img src={download} alt="download Icon" style={{width:"2rem"}} className='mx-2'/>
+                    <div className='text-right mb-5' style={{ cursor: "pointer" }} onClick={handleDownload}>
+                        <img src={download} alt="download Icon" style={{ width: "2rem" }} className='mx-2' />
                         Download
                     </div>
                     <div>
@@ -101,9 +124,6 @@ function Album() {
                 </div>
             </div>
         </>
-
-
-
     )
 }
 
