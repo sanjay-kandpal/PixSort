@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import AWS from 'aws-sdk';
+import Sidebar from './Sidebar';
+import Switch from "react-switch";
+import download from "../images/download.svg"
+
 
 function Album() {
 
     const { partycode } = useParams();
     const [matchImg, setMatchImg] = useState([]);
     const [images, setImages] = useState([]);
-
+    const [checked, setChecked] = useState(false)
 
     const BUCKET_NAME = process.env.REACT_APP_PARTY_BUCKET_NAME
     const REGION = process.env.REACT_APP_REGION
@@ -22,41 +27,83 @@ function Album() {
 
                 const imagesResponse = await axios.post('http://localhost:8081/getImageList', { partycode: partycode });
                 const fetchedImages = imagesResponse.data.images;
-                
+
                 setMatchImg(fetchedImages);
             } catch (error) {
                 console.error('Error:', error.response ? error.response.data.error : error.message);
             }
 
-            try {
-                const s3 = new AWS.S3({
+            AWS.config.update({
+                region: REGION,
+                credentials: new AWS.Credentials({
                     accessKeyId: ACCESS_KEY,
-                    secretAccessKey: SECRET_KEY,
-                    bucketName: BUCKET_NAME,
-                    dirName: partycode,
-                    region: REGION
+                    secretAccessKey: SECRET_KEY
                 })
-                s3.listFiles()
-                .then(data => {
-                    setImages(data.data.COntents);
-                    console.log(data.data)
-                })
-                .catch(err => console.log(err))
-            }
+            });
+
+            const s3 = new AWS.S3();
+
+            s3.listObjectsV2({ Bucket: BUCKET_NAME, Prefix: `${partycode}/` }, (err, data) => {
+                if (err) {
+                    console.error('Error fetching images:', err);
+                } else {
+                    const imageUrls = data.Contents
+                        .filter(obj => obj.Key.endsWith('.jpg') || obj.Key.endsWith('.jpeg') || obj.Key.endsWith('.png'))
+                        .map(obj => {
+                            return {
+                                url: `https://${BUCKET_NAME}.s3.amazonaws.com/${obj.Key}`,
+                                name: obj.Key.split('/').pop()
+                            };
+                        });
+                    setImages(imageUrls);
+                }
+            });
         };
 
         fetchData();
     }, [partycode]);
 
+    const handleChange = (checked) => {
+        setChecked(checked);
+    };
+
     return (
-        <div>
-            <h1>{partycode}</h1>
-            <div>
-                {matchImg.map((image, index) => (
-                    <p>{image}</p>
-                ))}
+
+
+        <>
+            <div className="dashboard">
+                <Sidebar />
+                <div className="dashboard--content">
+                    <div className="content--header">
+                        <h1 className="header--title text-dark">{partycode}</h1>
+                        <label className='d-flex'>
+                            <Switch onChange={handleChange} checked={checked} />
+                            <h5 className='mx-2'>Only Mine</h5>
+                        </label>
+                    </div>
+                    <div className='text-right mb-5'>
+                        <img src={download} alt="download Icon" style={{width:"2rem"}} className='mx-2'/>
+                        Download
+                    </div>
+                    <div>
+                        <div className='d-flex justify-content-center align-items-center align-self-center flex-wrap'>
+                            {images.map((image, index) => {
+                                if (checked) {
+                                    if (matchImg.includes(image.name)) {
+                                        return <img className='m-2' src={image.url} key={index} width={200} alt={`Image ${index}`} />;
+                                    }
+                                } else {
+                                    return <img className='m-3' src={image.url} key={index} width={200} alt={`Image ${index}`} />;
+                                }
+                            })}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </>
+
+
+
     )
 }
 
