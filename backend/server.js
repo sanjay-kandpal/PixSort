@@ -8,7 +8,9 @@ const bodyParser = require('body-parser');
 const cookie = require('cookie');
 // import axios from "axios";
 const axios = require('axios');
-// const fetch = require('node-fetch');
+// // const fetch = require('node-fetch');
+const AWS = require('aws-sdk');
+const JSZip = require('jszip');
 
 const app = express();
 
@@ -33,6 +35,11 @@ app.use(session({
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
+
+const BUCKET_NAME = process.env.BUCKET_NAME
+const REGION = process.env.REGION
+const ACCESS_KEY = process.env.ACCESS_KEY
+const SECRET_KEY = process.env.SECRET_KEY
 
 
 app.post('/signout', (req, res) => {
@@ -301,6 +308,7 @@ app.get('/getUserData', (req, res) => {
 
 app.post('/login', (req, res) => {
 	const sql = "SELECT * FROM signup WHERE `email` = ? AND `password` = ?";
+
 	console.log(req.body.email, req.body.password)
 	db.query(sql, [req.body.email, req.body.password], (err, data) => {
 		console.log("inlogin")
@@ -324,31 +332,31 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/getImageList', (req, res) => {
-    const { partycode } = req.body;
-    // const userid = req.session.userid;
+	const { partycode } = req.body;
+	// const userid = req.session.userid;
 
-    if (!partycode || !userid) {
-        return res.status(400).json({ error: 'Missing partycode or userid' });
-    }
+	if (!partycode || !userid) {
+		return res.status(400).json({ error: 'Missing partycode or userid' });
+	}
 
-    const sql = "SELECT partycode FROM user_access WHERE `userid` = ?";
-    db.query(sql, [userid], (err, data) => {
-        if (err) {
-            console.error(err.message);
-            return res.status(500).json({ error: err.message });
-        }
-        if (data.length > 0) {
-            let codes = JSON.parse(data[0].partycode);
-            if (codes.hasOwnProperty(partycode)) {
-                const images = codes[partycode];
-                return res.status(200).json({ images });
-            } else {
-                return res.status(404).json({ error: 'Party code not found' });
-            }
-        } else {
-            return res.status(404).json({ error: 'User not found' });
-        }
-    });
+	const sql = "SELECT partycode FROM user_access WHERE `userid` = ?";
+	db.query(sql, [userid], (err, data) => {
+		if (err) {
+			console.error(err.message);
+			return res.status(500).json({ error: err.message });
+		}
+		if (data.length > 0) {
+			let codes = JSON.parse(data[0].partycode);
+			if (codes.hasOwnProperty(partycode)) {
+				const images = codes[partycode];
+				return res.status(200).json({ images });
+			} else {
+				return res.status(404).json({ error: 'Party code not found' });
+			}
+		} else {
+			return res.status(404).json({ error: 'User not found' });
+		}
+	});
 });
 
 app.post('/addPartcodeForUser', async (req, res) => {
@@ -571,6 +579,7 @@ app.post('/addPartcodeForUser', async (req, res) => {
 
 app.post('/upload', (req, res) => {
 	const { partyCode, title } = req.body;
+
 
 	const sql = 'INSERT INTO albums (partyCode, title, date, owner) VALUES (?, ?, NOW(), ?)';
 
