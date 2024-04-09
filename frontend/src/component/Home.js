@@ -116,8 +116,7 @@ function Home() {
 	return (
 		<>
 		    {/* {isAuthenticated && <ToastContainer />} */}
-			<div className="dashboard">
-			
+			<div className="dashboard">			
 				<Sidebar />
 				<div className="dashboard--content">
 					<div className="content--header">
