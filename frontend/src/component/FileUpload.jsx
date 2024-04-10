@@ -87,7 +87,7 @@ const FileUpload = () => {
 			return
 		}
 
-		toast.promise("Uploading files:", files);
+		// toast.promise("Uploading files:", files);
 
 		const s3 = new AWS.S3({
 			accessKeyId: ACCESS_KEY,
