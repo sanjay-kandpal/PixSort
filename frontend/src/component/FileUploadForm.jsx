@@ -2,8 +2,9 @@ import React, { useState, useRef } from "react";
 import "../styles/FileUploadForm.css";
 import Sidebar from "./Sidebar";
 import {toast} from 'react-toastify'
-const FileUploadForm = ({ onFileUpload }) => {
 
+const FileUploadForm = ({ onFileUpload }) => {
+  
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [filePreviews, setFilePreviews] = useState([]);
   const [previewKey, setPreviewKey] = useState(0);

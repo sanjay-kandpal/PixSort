@@ -44,7 +44,7 @@ app.post('/signout', (req, res) => {
 		}
 
 		// Clear the session cookie on the client
-		res.clearCookie('connect.sid');
+		res.clearCookie('session');
 		return res.status(200).send('OK');
 	});
 });
@@ -106,7 +106,7 @@ app.post('/signup', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-
+    
 	if (req.session.username) {
 		const sql = "SELECT partycode FROM user_access WHERE `userid` = ?";
 		db.query(sql, userid, (err, data) => {
@@ -139,11 +139,13 @@ app.get('/', (req, res) => {
 				});
 
 			} else {
+				res.clearCookie('connect.sid');	
 				return res.json({ valid: false });
 			}
 		});
 
 	} else {
+		res.clearCookie('connect.sid');
 		return res.json({ valid: false });
 	}
 
@@ -191,7 +193,7 @@ app.post('/login', (req, res) => {
 			userid = req.session.userid;
 			console.log(req.session.username);
 			console.log(req.session.userid);
-
+            res.cookie('session', 'cookieValue', { /* options */ });
 			return res.json({ message: true, email: req.body.email, password: req.body.password, name: data[0].name });
 		} else {
 			return res.json({ message: false });

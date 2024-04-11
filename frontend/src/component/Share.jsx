@@ -3,11 +3,14 @@ import React from "react";
 // import Sidebar from "./Sidebar";
 import {FacebookShareButton,RedditShareButton,WhatsappShareButton,FacebookIcon, TwitterShareButton, RedditIcon, TwitterIcon,WhatsappIcon} from "react-share";
 import "../styles/share.css";
-
+import Cookies from 'js-cookie';
+import AuthMiddleware from './AuthMiddleware';
 const Share = () => {
     // Replace 'yourShareUrl' with the URL you want to share
     const shareUrl = 'http://localhost:3000/share';
-    
+    const sessionID = Cookies.get('session');
+    console.log(sessionID);
+    AuthMiddleware()
     return (
         <div className="share">
             {/* <Sidebar /> */}

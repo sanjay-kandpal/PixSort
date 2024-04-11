@@ -2,8 +2,9 @@ import React from "react";
 import FileUploadForm from "./FileUploadForm"; // Adjust the import path accordingly
 import FileUpload from "./FileUpload";
 import {toast} from 'react-toastify'
-
+import AuthMiddleware from './AuthMiddleware';
 const handleFileUpload = () => {
+  AuthMiddleware()
   // Define the function to handle file upload
   const handleFileUpload = async (formData) => {
     try {
