@@ -1,5 +1,6 @@
 import { BiEdit } from "react-icons/bi"
 import React from "react";
+
 const ProfileHeader= () => {
     return(
         <div className="profile--header">
@@ -11,4 +12,5 @@ const ProfileHeader= () => {
 
     )
 }
+
 export default ProfileHeader;

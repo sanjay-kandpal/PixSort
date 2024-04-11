@@ -30,11 +30,9 @@ function Profile() {
                             <br></br>
                             <span className='n'></span>
                             <br></br>
-
                         </div>
                      </div>
                     </div>
-                    
                 </div>
             </div>
         </div>

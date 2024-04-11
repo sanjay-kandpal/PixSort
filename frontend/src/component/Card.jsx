@@ -12,11 +12,6 @@ const Card = ({ codes }) => {
         return null; // or handle the error in another way
     }
 
-    const openAlbum = (partycode) => {
-
-    }
-
-
     return (
         <div className="albumContainer">
             <div className="search-box">
@@ -25,9 +20,8 @@ const Card = ({ codes }) => {
             </div>
             <div className="card--container">
                 {codes.map((code) => (
-                     <Link to={`/album/${code.partycode}`} key={code.partycode}>
+                    <Link to={`/album/${code.partycode}`} key={code.partycode}>
                         <div className="card">
-                            {/* <div className="card--cover">{item.icon}</div> */}
                             <div className="card--title">
                                 <h3>{code.title}</h3>
                             </div>

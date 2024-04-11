@@ -5,7 +5,7 @@ import "../styles/fileUpload.css"
 import AWS from 'aws-sdk';
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-// import { UserContext } from '../context/UserContext';
+import Loader from "./Loader";
 
 const dropzoneStyle = {
     flex: 1,
@@ -40,8 +40,8 @@ const SECRET_KEY = process.env.REACT_APP_SECRET_KEY
 function SelfieUpload() {
 
     const [files, setFiles] = useState([]);
-    // const { username, userid } = useContext(UserContext);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(flalse);
 
     const onDrop = useCallback((acceptedFiles) => {
         setFiles(
@@ -58,13 +58,11 @@ function SelfieUpload() {
 
         try {
             const response = await axios.get("http://localhost:8081/getUserData");
-            // console.log("Response: ", response.data);
 
             var { id, name } = response.data;
-            // console.log("user details: ", id, name);
 
             console.log(name)
-            if(/\s/.test(name)) {
+            if (/\s/.test(name)) {
                 var names = names.split(" ");
                 name = names[0]
             }
@@ -79,7 +77,9 @@ function SelfieUpload() {
                 return
             }
 
-            console.log("Uploading files:", files);
+            // console.log("Uploading files:", files);
+
+            setLoading(true);
 
             const s3 = new AWS.S3({
                 accessKeyId: ACCESS_KEY,
@@ -101,6 +101,7 @@ function SelfieUpload() {
             console.log('Files uploaded successfully');
             toast('File Uploaded Successfully')
             setFiles([]);
+            setLoading(false);
             navigate('/')
         } catch (error) {
             console.error('Error uploading files:', error.message);
@@ -124,41 +125,53 @@ function SelfieUpload() {
     ));
 
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center w-100 p-5 selfieInstructionsContainer">
-            <div className="selfieInstructions">
-                Upload your minimum 2 SOLO Selfies
-            </div>
-            <div
-                style={
-                    isDragActive
-                        ? { ...dropzoneStyle, ...activeDropzoneStyle }
-                        : dropzoneStyle
-                }
-                {...getRootProps()}
-            >
-                <input {...getInputProps()} />
-                <p className="DropzoneText" >
-                    Drag and drop your files here, or click to select files
-                </p>
-                <ul className="ImageContainer">{fileList}</ul>
-            </div>
+        <>
+            {
+                loading ? (
+                    <div className="w-100 d-flex justify-content-center align-items-center" style={{ height: "100vh" }} >
+                        <Loader />
+                    </div >
+                ) : (
+                    <div className="d-flex flex-column justify-content-center align-items-center w-100 p-5 selfieInstructionsContainer">
+                        <div className="selfieInstructions">
+                            Upload your minimum 2 SOLO Selfies
+                        </div>
+                        <div
+                            style={
+                                isDragActive
+                                    ? { ...dropzoneStyle, ...activeDropzoneStyle }
+                                    : dropzoneStyle
+                            }
+                            {...getRootProps()}
+                        >
+                            <input {...getInputProps()} />
+                            <p className="DropzoneText" >
+                                Drag and drop your files here, or click to select files
+                            </p>
+                            <ul className="ImageContainer">{fileList}</ul>
+                        </div>
 
-            <button className="uploadButton" onClick={onUploadClick}>
-                Upload
-            </button>
+                        <button className="uploadButton" onClick={onUploadClick}>
+                            Upload
+                        </button>
 
-            <div className="selfieInstructions">
-                Impotant Points to take care:
-            </div>
-            <div className="selfieDesc">
-                <ul className="descList">
-                    <li className="descListItem">There should be no other person in the image you upload, it should just be you.</li>
-                    <li className="descListItem">Make sure that the image is not from too far and your face is clearly visible.</li>
-                    <li className="descListItem">Try to upload images from two different pictures.</li>
-                    <li className="descListItem">Make sure that the surrounds are well lit up and face is not dark in the picture.</li>
-                </ul>
-            </div>
-        </div>
+                        <div className="selfieInstructions">
+                            Impotant Points to take care:
+                        </div>
+                        <div className="selfieDesc">
+                            <ul className="descList">
+                                <li className="descListItem">There should be no other person in the image you upload, it should just be you.</li>
+                                <li className="descListItem">Make sure that the image is not from too far and your face is clearly visible.</li>
+                                <li className="descListItem">Try to upload images from two different pictures.</li>
+                                <li className="descListItem">Make sure that the surrounds are well lit up and face is not dark in the picture.</li>
+                            </ul>
+                        </div>
+                    </div>
+                )
+
+            }
+
+        </>
     )
 }
 

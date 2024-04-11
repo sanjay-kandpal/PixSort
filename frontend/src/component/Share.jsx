@@ -1,5 +1,6 @@
 import React from "react";
-import Sidebar from "./Sidebar";
+// import Sidebar from "./Sidebar";
+// import Sidebar from "./Sidebar";
 import {FacebookShareButton,RedditShareButton,WhatsappShareButton,FacebookIcon, TwitterShareButton, RedditIcon, TwitterIcon,WhatsappIcon} from "react-share";
 import "../styles/share.css";
 
@@ -9,7 +10,7 @@ const Share = () => {
     
     return (
         <div className="share">
-            <Sidebar />
+            {/* <Sidebar /> */}
             <div>
                 <div className="share-container">
                 <FacebookShareButton

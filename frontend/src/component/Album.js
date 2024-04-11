@@ -7,6 +7,7 @@ import Switch from "react-switch";
 import download from "../images/download.svg"
 import JSZip from "jszip";
 import { saveAs } from 'file-saver';
+import Loader from './Loader';
 
 
 function Album() {
@@ -15,6 +16,8 @@ function Album() {
     const [matchImg, setMatchImg] = useState([]);
     const [images, setImages] = useState([]);
     const [checked, setChecked] = useState(false)
+    const [loading, setLoading] = useState(true);
+    const [imagesLoading, setImagesLoading] = useState(true);
 
     const BUCKET_NAME = process.env.REACT_APP_PARTY_BUCKET_NAME
     const REGION = process.env.REACT_APP_REGION
@@ -24,6 +27,7 @@ function Album() {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
             try {
                 const userDataResponse = await axios.get("http://localhost:8081/getUserData");
                 const { id, name } = userDataResponse.data;
@@ -59,8 +63,10 @@ function Album() {
                             };
                         });
                     setImages(imageUrls);
+                    setImagesLoading(false);
                 }
             });
+            setLoading(false);
         };
 
         fetchData();
@@ -77,7 +83,7 @@ function Album() {
 
             images.forEach((image, index) => {
                 if (!checked || (checked && matchImg.includes(image.name))) {
-                    const filename = `image_${index + 1}.jpg`; // Change the filename as needed
+                    const filename = `image_${index + 1}.jpg`;
                     const promise = fetch(image.url)
                         .then(response => response.blob())
                         .then(blob => zip.file(filename, blob));
@@ -97,32 +103,42 @@ function Album() {
         <>
             <div className="dashboard">
                 <Sidebar />
-                <div className="dashboard--content">
-                    <div className="content--header">
-                        <h1 className="header--title text-dark">{partycode}</h1>
-                        <label className='d-flex'>
-                            <Switch onChange={handleChange} checked={checked} />
-                            <h5 className='mx-2'>Only Mine</h5>
-                        </label>
-                    </div>
-                    <div className='text-right mb-5' style={{ cursor: "pointer" }} onClick={handleDownload}>
-                        <img src={download} alt="download Icon" style={{ width: "2rem" }} className='mx-2' />
-                        Download
-                    </div>
-                    <div>
-                        <div className='d-flex justify-content-center align-items-center align-self-center flex-wrap'>
-                            {images.map((image, index) => {
-                                if (checked) {
-                                    if (matchImg.includes(image.name)) {
-                                        return <img className='m-2' src={image.url} key={index} width={200} alt={`Image ${index}`} />;
-                                    }
-                                } else {
-                                    return <img className='m-3' src={image.url} key={index} width={200} alt={`Image ${index}`} />;
-                                }
-                            })}
-                        </div>
-                    </div>
-                </div>
+
+                {
+                    loading || imagesLoading ?
+                        (
+                            <div className="w-100 d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+                                <Loader />
+                            </div>
+                        ) : (
+                            <div className="dashboard--content">
+                                <div className="content--header">
+                                    <h1 className="header--title text-dark">{partycode}</h1>
+                                    <label className='d-flex'>
+                                        <Switch onChange={handleChange} checked={checked} />
+                                        <h5 className='mx-2'>Only Mine</h5>
+                                    </label>
+                                </div>
+                                <div className='text-right mb-5' style={{ cursor: "pointer" }} onClick={handleDownload}>
+                                    <img src={download} alt="download Icon" style={{ width: "2rem" }} className='mx-2' />
+                                    Download
+                                </div>
+                                <div>
+                                    <div className='d-flex justify-content-center align-items-center align-self-center flex-wrap'>
+                                        {images.map((image, index) => {
+                                            if (checked) {
+                                                if (matchImg.includes(image.name)) {
+                                                    return <img className='m-2' src={image.url} key={index} width={200} alt={`Image ${index}`} />;
+                                                }
+                                            } else {
+                                                return <img className='m-3' src={image.url} key={index} width={200} alt={`Image ${index}`} />;
+                                            }
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                }
             </div>
         </>
     )
