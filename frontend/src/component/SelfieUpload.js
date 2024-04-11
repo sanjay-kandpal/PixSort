@@ -41,7 +41,7 @@ function SelfieUpload() {
 
     const [files, setFiles] = useState([]);
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(flalse);
+    const [loading, setLoading] = useState(false);
 
     const onDrop = useCallback((acceptedFiles) => {
         setFiles(

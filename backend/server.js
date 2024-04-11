@@ -363,217 +363,52 @@ app.post('/addPartcodeForUser', async (req, res) => {
 	console.log(req.body.partyCode);
 	const partycode = req.body.partyCode;
 
-
-	// try {
-	// 	const response = await axios.post("https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/", {
-	// 	// const response = await axios.post("arn:aws:execute-api:us-east-1:533267403922:38sglfeq52/*/OPTIONS/compareFaces", {
-	// 		userid: userid,
-	// 		partycode: partycode
-	// 	});
-	// 	// setResponseData(response.data);
-	// 	console.log(response.data)
-	// 	res.status(200).json({ message: 'Upload successful', res: response });
-	// 	// res.status(200).json({ message: 'Upload successful', user: userid });
-	//   } catch (error) {
-	// 	res.status(401).json({ error: 'Unauthorized' });
-	// 	console.error("Error:", error);
-	//   }
-
-	// try {
-	// 	const response = await fetch('https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces', {
-	// 		method: 'POST',
-	// 		headers: {
-	// 			'Content-Type': 'application/json',
-	// 			'userid': userid,
-	// 			'partycode': partycode
-	// 		},
-	// 		body: JSON.stringify({})
-	// 	});
-
-	// 	const data = await response.json();
-	// 	res.json(data);
-	// 	console.log(response)
-	// } catch (error) {
-	// 	console.error('Error:', error);
-	// 	res.status(500).json({ error: 'Internal Server Error' });
-	// };
-
-	imageList = ['IMG20230909115049.jpg', 'WIN_20230216_09_22_13_Pro.jpg', 'shivanshi.jpg']
+	try {
+		const response = await axios.post("https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces", null, {
+			headers: {
+				userid: userid,
+				partycode: partycode
+			}
+		});
+		const inputString = response.data
+		const imageList = inputString.split("||||");
+		console.log(imageList)
 
 
-
-
-
-
-
-
-	// try {
-	// 	const apiUrl = 'https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/';
-
-	// 	const postData = {
-	// 	  userid: userid,
-	// 	  partycode: partycode
-	// 	};
-
-	// 	const response = await axios.post(apiUrl, postData);
-
-	// 	// Handle response from the API Gateway
-	// 	console.log('Response from API Gateway:', response.data);
-
-	// 	// Return response data if needed
-	// 	// return response.data;
-	//   } catch (error) {
-	// 	// Handle errors
-	// 	console.error('Error making POST request:', error);
-	// 	throw error; // Rethrow error if needed
-	//   }
-
-
-	// fetch(`https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/userid=${userid}&partycode=${partycode}`, {
-	// fetch(`https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/`, {
-	//   method: 'POST',
-	//   headers: {
-	//     'Accept': 'application/json',
-	//     'Content-Type': 'application/json'
-	//   },
-	// //   body: JSON.stringify{
-	//   body: {
-	// 	userid: userid, 
-	// 	partycode: partycode
-	// }
-	// });
-
-
-	// fetch(`https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/`, {
-	// 	method: 'POST',
-	// 	headers: {
-	// 		'Accept': 'application/json',
-	// 		'Content-Type': 'application/json'
-	// 	},
-	// 	body: JSON.stringify({
-	// 		userid: userid,
-	// 		partycode: partycode
-	// 	})
-	// })
-	// 	.then(response => {
-	// 		if (!response.ok) {
-	// 			throw new Error('Network response was not ok');
-	// 		}
-	// 		return response.json();
-	// 	})
-	// 	.then(data => {
-	// 		console.log('Response from API:', data);
-	// 	})
-	// 	.catch(error => {
-	// 		console.error('There was a problem with the fetch operation:', error);
-	// 	})
-
-
-
-	// fetch(`https://38sglfeq52.execute-api.us-east-1.amazonaws.com/prod/compareFaces/`, {
-	// 	method: 'POST',
-	// 	headers: {
-	// 		'Accept': 'application/json',
-	// 		'Content-Type': 'application/json'
-	// 	},
-	// 	body: JSON.stringify({
-	// 		userid: userid,
-	// 		partycode: partycode
-	// 	})
-	// })
-	// 	.then(response => {
-	// 		if (!response.ok) {
-	// 			throw new Error('Network response was not ok');
-	// 		}
-	// 		return response.json();
-	// 	})
-	// 	.then(data => {
-	// 		console.log('Response from API:', data);
-	// 	})
-	// 	.catch(error => {
-	// 		console.error('There was a problem with the fetch operation:', error);
-	// 	})
-
-
-
-
-
-
-
-
-
-
-	//FINAL - THIS IS WORKING
-
-	// const sql1 = "SELECT partycode FROM user_access WHERE `userid` = ?";
-	// db.query(sql1, [userid], (err, data) => {
-	// 	if (err) {
-	// 		console.error('MySQL query error:', err);
-	// 		res.status(500).json({ error: 'Internal Server Error' });
-	// 	}
-	// 	console.log(data)
-	// 	if (data.length > 0) {
-	// 		let codes = JSON.parse(data[0].partycode)
-	// 		codes.push(partycode)
-	// 		console.log(codes)
-	// 		let codeString = JSON.stringify(codes)
-
-
-	// 		const sql2 = 'update user_access set partycode=? WHERE USERID=?;';
-	// 		if (userid != 0) {
-	// 			db.query(sql2, [codeString, userid], (err, result) => {
-	// 				if (err) {
-	// 					console.error('MySQL query error:', err);
-	// 					res.status(500).json({ error: 'Internal Server Error' });
-	// 				} else {
-	// 					console.log('Upload data inserted into MySQL');
-	// 					res.status(200).json({ message: 'Upload successful', user: userid });
-	// 				}
-	// 			});
-	// 		} else {
-	// 			res.status(401).json({ error: 'Unauthorized' });
-	// 		}
-
-	// 	} else {
-	// 		console.error('MySQL query error:', err);
-	// 		res.status(500).json({ error: 'Internal Server Error' });
-	// 	}
-	// })
-
-
-	const sql1 = "SELECT partycode FROM user_access WHERE `userid` = ?";
-	db.query(sql1, [userid], (err, data) => {
-		if (err) {
-			console.error('MySQL query error:', err);
-			res.status(500).json({ error: 'Internal Server Error' });
-			return;
-		}
-
-		let partyCodeJSON = {};
-		if (data.length > 0) {
-			partyCodeJSON = JSON.parse(data[0].partycode || '{}');
-		}
-
-		// Add or update the list of images for the given party code
-		partyCodeJSON[partycode] = imageList;
-
-		// Convert the JSON object back to a string
-		const updatedPartyCodeString = JSON.stringify(partyCodeJSON);
-
-		const sql2 = 'UPDATE user_access SET partycode=? WHERE userid=?;';
-		db.query(sql2, [updatedPartyCodeString, userid], (err, result) => {
+		const sql1 = "SELECT partycode FROM user_access WHERE `userid` = ?";
+		db.query(sql1, [userid], (err, data) => {
 			if (err) {
 				console.error('MySQL query error:', err);
 				res.status(500).json({ error: 'Internal Server Error' });
 				return;
 			}
 
-			console.log('Upload data inserted into MySQL');
-			res.status(200).json({ message: 'Upload successful', user: userid });
+			let partyCodeJSON = {};
+			if (data.length > 0) {
+				partyCodeJSON = JSON.parse(data[0].partycode || '{}');
+			}
+
+			partyCodeJSON[partycode] = imageList;
+
+			const updatedPartyCodeString = JSON.stringify(partyCodeJSON);
+
+			const sql2 = 'UPDATE user_access SET partycode=? WHERE userid=?;';
+			db.query(sql2, [updatedPartyCodeString, userid], (err, result) => {
+				if (err) {
+					console.error('MySQL query error:', err);
+					res.status(500).json({ error: 'Internal Server Error' });
+					return;
+				}
+
+				console.log('Upload data inserted into MySQL');
+				res.status(200).json({ message: 'Upload successful', user: userid });
+			});
 		});
-	});
 
-
+	} catch (error) {
+		res.status(500).json({ error: 'Error in getting matching images' });
+		console.error("Error:", error);
+	}
 
 })
 
@@ -607,7 +442,7 @@ app.post('/upload', (req, res) => {
 
 
 
-						
+
 						imageList = ['IMG20230909115049.jpg', 'WIN_20230216_09_22_13_Pro.jpg', 'shivanshi.jpg']
 						codes[partyCode] = imageList
 						console.log(codes)

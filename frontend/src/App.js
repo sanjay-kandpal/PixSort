@@ -11,31 +11,29 @@ import Error404 from './component/Error404';
 import { UserProvider } from './context/UserContext';
 import Album from "./component/Album";
 import Share from "./component/Share";
-// var cors = require('cors')
-// app.use(cors())
 
 function App() {
 
 
-  return (
-    <BrowserRouter>
-    <UserProvider>
-      <Routes>
-        <Route path="/Login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<div>hello</div>} />
-        <Route path="/Upload" element={<HandleFileUpload />} />
-        <Route path="/selfImageUpload" element={<SelfieUpload />} />
-        <Route path="/landing" element={<LandingPage />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/album/:partycode" element={<Album />} />
-        <Route path="/share" element={<Share />} />
-        <Route path="/*" element={<Error404 />} />
-      </Routes>
-      </UserProvider>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<UserProvider>
+				<Routes>
+					<Route path="/Login" element={<Login />} />
+					<Route path="/signup" element={<Signup />} />
+					<Route path="/" element={<Home />} />
+					<Route path="/home" element={<div>hello</div>} />
+					<Route path="/Upload" element={<HandleFileUpload />} />
+					<Route path="/selfImageUpload" element={<SelfieUpload />} />
+					<Route path="/landing" element={<LandingPage />} />
+					<Route path="/profile" element={<Profile />} />
+					<Route path="/album/:partycode" element={<Album />} />
+					<Route path="/share" element={<Share />} />
+					<Route path="/*" element={<Error404 />} />
+				</Routes>
+			</UserProvider>
+		</BrowserRouter>
+	);
 }
 
 export default App;
