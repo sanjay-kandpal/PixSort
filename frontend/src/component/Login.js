@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaGithub, FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaGithub, FaFacebook, FaGoogle,FaEye,FaEyeSlash } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import Validation from "./LoginValidation";
 import "../styles/AuthForm.css";
@@ -11,12 +11,12 @@ import logo from "../images/logo.png";
 import { toast } from "react-toastify";
 import { useUserData } from '../context/UserContext';
 
-
 function Login() {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false); 
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { setUserData } = useUserData();
@@ -28,6 +28,10 @@ function Login() {
   };
   axios.defaults.withCredentials = true;
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(prevState => !prevState);
+  };
+  
   useEffect(() => {
     axios
       .get("http://localhost:8081/")
@@ -172,17 +176,21 @@ function Login() {
                 />
                 {errors.email && <span className="">{errors.email}</span>}
               </div>
-              <div className="form-outline mb-4">
+              <div className="form-outline mb-4 password-container">
                 <label htmlFor="password" className="form-label">
                   <strong>Password</strong>
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
+                  id="password"
                   placeholder="Enter Password"
                   name="password"
                   onChange={handleInput}
                   className="form-control"
                 />
+                <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
                 {errors.password && <span className="">{errors.password}</span>}
               </div>
               <button

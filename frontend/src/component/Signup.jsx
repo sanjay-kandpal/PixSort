@@ -41,15 +41,13 @@ function Signup() {
                 {/* <!--------------------------- Left Box -----------------------------> */}
                 <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box">
                     <div class="featured-image mb-3">
-                        <img src={girlImg} className="img-fluid" style={{ width: "350px", borderRadius: "5px" }} alt='girl photographer' />
+                        <img src={girlImg} className="img-fluid" style={{ width: "320px", borderRadius: "50px" }} alt='girl photographer' />
 
                     </div>
-                    <p class="text-white fs-2">Be Verified</p>
-                    <small class="text-white text-wrap text-center">Join experienced Designers on this platform.</small>
                 </div>
                 {/* <!-------------------- ------ Right Box ----------------------------> */}
 
-                <div class="col-md-6 right-box">
+                <div class="col-md-6 right-box mt-4">
                     <div class="row align-items-center">
                         <div class="header-text mb-4">
                             <h2>Hello,Again</h2>

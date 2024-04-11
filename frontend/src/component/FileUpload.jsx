@@ -8,7 +8,6 @@ import "../styles/fileUpload.css"
 import AWS from 'aws-sdk';
 import { toast } from "react-toastify";
 
-
 const dropzoneStyle = {
 	flex: 1,
 	display: "flex",
@@ -153,8 +152,9 @@ const FileUpload = () => {
 			<span className="FileName" >{file.name}</span>
 		</li>
 	));
-
+	
 	return (
+		
 		<div className="dashboard">
 			<Sidebar />
 			<div className="d-flex flex-column">
