@@ -597,8 +597,19 @@ app.post('/upload', (req, res) => {
 						res.status(500).json({ error: 'Internal Server Error' });
 					}
 					if (data.length > 0) {
-						let codes = JSON.parse(data[0].partycode)
-						codes.push(partyCode)
+						let codes = JSON.parse(data[0].partycode) || {}
+
+
+
+
+
+
+
+
+
+						
+						imageList = ['IMG20230909115049.jpg', 'WIN_20230216_09_22_13_Pro.jpg', 'shivanshi.jpg']
+						codes[partyCode] = imageList
 						console.log(codes)
 						let codeString = JSON.stringify(codes)
 
