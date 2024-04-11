@@ -57,7 +57,7 @@ const Sidebar = () => {
                     <FaUsersViewfinder className="icon" />
                     <h3>Clients</h3>
                 </a>
-                <Link to="#" className="item">
+                <Link to="/share" className="item">
                     <FaShareAltSquare className="icon" />
                     <h3>Share</h3>
                 </Link>

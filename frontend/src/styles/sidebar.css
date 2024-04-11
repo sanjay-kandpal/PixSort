@@ -2,10 +2,11 @@
   display: flex;
   flex-direction: column;
   gap: 2.3rem;
-  height: 94vh;
+  /* height: max-content; */
+  /* border: 1px solid black; */
+  height: 100vh;
   width: fit-content;
   position: sticky;
-  top: 0px;
 }
 
 .logo {

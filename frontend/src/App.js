@@ -7,8 +7,10 @@ import HandleFileUpload from "./component/HandleFileUpload";
 import SelfieUpload from "./component/SelfieUpload";
 import LandingPage from "./component/LandingPage";
 import Profile from "./component/Profile";
+import Error404 from './component/Error404';
 import { UserProvider } from './context/UserContext';
 import Album from "./component/Album";
+import Share from "./component/Share";
 // var cors = require('cors')
 // app.use(cors())
 
@@ -28,6 +30,8 @@ function App() {
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/album/:partycode" element={<Album />} />
+        <Route path="/share" element={<Share />} />
+        <Route path="/*" element={<Error404 />} />
       </Routes>
       </UserProvider>
     </BrowserRouter>

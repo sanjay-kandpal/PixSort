@@ -4,8 +4,11 @@ import "../styles/profile.css"
 import ProfilePicture from "../images/profilePicture.jpg"
 import { useUserData } from '../context/UserContext';
 
+
 function Profile() {
+
     const { userData } = useUserData();
+    
 	console.log(userData)
     return (
         <div className='dashboard'>

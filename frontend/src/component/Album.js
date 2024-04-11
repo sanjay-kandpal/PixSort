@@ -18,6 +18,7 @@ function Album() {
 
     const BUCKET_NAME = process.env.REACT_APP_PARTY_BUCKET_NAME
     const REGION = process.env.REACT_APP_REGION
+    console.log(BUCKET_NAME);
     const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY
     const SECRET_KEY = process.env.REACT_APP_SECRET_KEY
 
