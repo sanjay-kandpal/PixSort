@@ -74,8 +74,8 @@ function SelfieUpload() {
                 return;
             }
 
-            if (files.length > 20) {
-                toast("You can only upload 20 files at a time")
+            if (files.length > 5) {
+                toast("You can only upload 5")
                 return
             }
 
