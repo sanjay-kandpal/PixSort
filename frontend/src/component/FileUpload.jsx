@@ -126,6 +126,8 @@ const FileUpload = () => {
 				toast.error('Error sending upload data to server');
 			}
 
+			setPartyCode(generatePartyCode());
+			setTitle("");
 			setLoading(false);
 
 		} catch (error) {
