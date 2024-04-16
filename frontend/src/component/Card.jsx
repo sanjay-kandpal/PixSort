@@ -12,14 +12,18 @@ const Card = ({ codes }) => {
         return null; // or handle the error in another way
     }
 
+    const filteredCodes = codes.filter(code =>
+        code.title.toLowerCase().includes(search.toLowerCase())
+    );
+
     return (
         <div className="albumContainer">
             <div className="search-box">
-                <input type="text" placeholder="Search party" value={search} onChange={(e) => { setSearch(e.target.value) }} />
-                <BiSearch className="icon" />
+                <input type="text" placeholder="Search Album by Title" value={search} onChange={(e) => { setSearch(e.target.value) }} />
+                {/* <BiSearch className="icon" /> */}
             </div>
             <div className="card--container">
-                {codes.map((code) => (
+                {filteredCodes.map((code) => (
                     <Link to={`/album/${code.partycode}`} key={code.partycode}>
                         <div className="card">
                             <div className="card--title">
@@ -30,8 +34,7 @@ const Card = ({ codes }) => {
                             </div>
                         </div>
                     </Link>
-                )
-                )}
+                ))}
             </div>
         </div>
     )

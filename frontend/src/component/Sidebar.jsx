@@ -53,14 +53,10 @@ const Sidebar = () => {
                     <FaCloudUploadAlt className="icon" />
                     <h3>Upload</h3>
                 </Link>
-                <a href="#" className="item">
-                    <FaUsersViewfinder className="icon" />
-                    <h3>Clients</h3>
-                </a>
-                <Link to="/share" className="item">
+                {/* <Link to="/share" className="item">
                     <FaShareAltSquare className="icon" />
                     <h3>Share</h3>
-                </Link>
+                </Link> */}
                 <Link to="/profile" className="item">
                     <ImProfile className="icon" />
                     <h3>Profile</h3>
