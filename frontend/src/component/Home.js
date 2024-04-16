@@ -26,13 +26,14 @@ function Home() {
 		axios
 			.get("http://localhost:8081/")
 			.then((res) => {
-				console.log(res);
+				console.log(res.data);
 				if (res.data.valid === true) {
 					setName(res.data.username);
 					setUserId(res.data.cookie.userid);
 					setAuthentic(true);
 					setCodes(res.data.userCodes)
 				} else {
+						
 					navigate("/Login");
 				}
 			})
@@ -40,7 +41,7 @@ function Home() {
 				console.log(err);
 			});
 			setLoading(false)
-	}, [isAuthenticated]);
+	}, []);
 
 	const toggleNotification = () => {
 		setIsActive(!isActive);
