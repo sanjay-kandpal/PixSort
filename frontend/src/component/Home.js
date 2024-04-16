@@ -5,14 +5,11 @@ import Sidebar from "./Sidebar";
 import Loader from "./Loader";
 import Content from "./Content";
 import "../App.css";
-
 import { BiSearch } from "react-icons/bi";
-
 import { toast } from 'react-toastify'
 
 
 function Home() {
-
 
 	const [name, setName] = useState("");
 	const [userId, setUserId] = useState("");
@@ -118,7 +115,6 @@ function Home() {
 
 	return (
 		<>
-			{/* {isAuthenticated && <ToastContainer />} */}
 			<div className="dashboard">
 				<Sidebar />
 
