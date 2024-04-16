@@ -62,7 +62,7 @@ function Login() {
             setUserData(res.data)
             navigate("/");
           } else {
-            toast('Login Failed ')  
+            toast.error('Login Failed ')  
           }
         })
         .catch((err) => {
@@ -201,17 +201,17 @@ function Login() {
               </button>
 
               <div class="form-check d-flex justify-content-center mb-4">
-                <input
+                {/* <input
                   class="form-check-input me-2"
                   type="checkbox"
                   value=""
                   id="registerCheck"
                   checked
                   aria-describedby="registerCheckHelpText"
-                />
-                <label class="form-check-label w-100" for="registerCheck">
+                /> */}
+                {/* <label class="form-check-label w-100" for="registerCheck">
                   I have read and agree to the terms
-                </label>
+                </label> */}
               </div>
             </form>
             {/* <!-- Register buttons --> */}
@@ -223,8 +223,7 @@ function Login() {
           </div>
         </div>
       </div>
-    </>
-    
+    </>    
   );
 }
 
