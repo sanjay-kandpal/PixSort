@@ -159,7 +159,7 @@ function Login() {
 									type="submit"
 									className="w-100 btn btn-primary btn-block mb-3"
 								>
-									Sign In
+									Log In
 								</button>
 
 								<div class="form-check d-flex justify-content-center mb-4">
@@ -178,11 +178,11 @@ function Login() {
 							</div>
 						</form>
 						{/* <!-- Register buttons --> */}
-						<div class="text-center">
+						{/* <div class="text-center">
 							<p>
 								Not a member? <Link to="/signup">Create Account</Link>
 							</p>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>
