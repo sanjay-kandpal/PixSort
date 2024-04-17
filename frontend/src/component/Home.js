@@ -31,6 +31,7 @@ function Home() {
 					setName(res.data.username);
 					setUserId(res.data.cookie.userid);
 					setAuthentic(true);
+					
 					setCodes(res.data.userCodes)
 				} else {
 						
