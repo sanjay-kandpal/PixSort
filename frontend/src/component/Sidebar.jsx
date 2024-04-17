@@ -26,6 +26,7 @@ const Sidebar = () => {
             console.log(response);
             if (response.ok) {
                 // Handle successful sign-out (redirect, etc.)s
+                localStorage.removeItem('id');
                 toast.success('LOGOUT Successfully')
                 setAuthentic(false);
                 Cookies.remove('connect.sid')       
@@ -53,10 +54,10 @@ const Sidebar = () => {
                     <FaCloudUploadAlt className="icon" />
                     <h3>Upload</h3>
                 </Link>
-                {/* <Link to="/share" className="item">
+                <Link to="/share" className="item">
                     <FaShareAltSquare className="icon" />
                     <h3>Share</h3>
-                </Link> */}
+                </Link>
                 <Link to="/profile" className="item">
                     <ImProfile className="icon" />
                     <h3>Profile</h3>

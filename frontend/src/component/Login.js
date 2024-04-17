@@ -37,8 +37,10 @@ function Login() {
 			.get("http://localhost:8081/")
 			.then((res) => {
 				console.log(res);
+				
 				if (res.data.valid === true) {
 					toast.success('Login Successfully')
+					
 					navigate("/");
 				} else {
 					navigate("/Login");
@@ -60,6 +62,10 @@ function Login() {
 					if (res.data.message === true) {
 						toast.success('Login Successfully')
 						setUserData(res.data)
+						localStorage.setItem('id',res.data.id);
+						// localStorage.setItem('profile', res.data.name);
+                    // localStorage.setItem('email',res.data.email)
+					// localStorage.setItem('password', res.data.password);
 						navigate("/");
 					} else {
 						toast.error('Login Failed ')

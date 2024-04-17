@@ -60,10 +60,6 @@ const db = mysql.createConnection({
 })
 
 db.connect((err) => {
-	let pass = "Jagrati123"
-	let pass1 = cryptr.encrypt(pass);
-	console.log(pass1)
-	console.log("Decrypted email = ", cryptr.decrypt(pass1));
 	if (err) {
 		console.error('Error connecting to MySQL database:', err);
 	} else {
@@ -363,6 +359,58 @@ app.post('/upload', async (req, res) => {
 	}
 });
 
+// Route to handle user retrieval
+app.get('/user', (req, res) => {
+  const userId = req.query.id;
+  const query = `SELECT * FROM signup WHERE id = ${userId}`;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+
+    if (results.length === 0) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    // Return the user data as JSON
+    res.json(results[0]);
+  });
+});
+
+
+// Route to handle user update
+app.put('/update', (req, res) => {
+	const userId = req.query.id;
+	const { name, email, password } = req.body;
+  
+	// Check if all required fields are provided
+	if (!name || !email || !password) {
+	  return res.status(400).json({ error: 'All fields are required' });
+	}
+  
+	// Update the user data in the database
+	const query = `UPDATE signup SET name = ?, email = ?, password = ? WHERE id = ?`;
+	db.query(query, [name, email, password, userId], (err, result) => {
+	  if (err) {
+		console.error('Error executing MySQL query:', err);
+		res.status(500).json({ error: 'Internal Server Error' });
+		return;
+	  }
+  
+	  // Check if the user was found and updated
+	  if (result.affectedRows === 0) {
+		res.status(404).json({ error: 'User not found' });
+		return;
+	  }
+  
+	  res.json({ message: 'User data updated successfully',valid: 'true' });
+	});
+  });
+  
 
 
 
