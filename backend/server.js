@@ -10,6 +10,9 @@ const axios = require('axios');
 const AWS = require('aws-sdk');
 const JSZip = require('jszip');
 
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('pixsort-12344321');
+
 const app = express();
 
 app.use(cors({
@@ -67,28 +70,30 @@ db.connect((err) => {
 
 app.post('/signup', async (req, res) => {
 	try {
+
+		var encryptedPassword = cryptr.encrypt(req.body.password[0]);
+
 		const sql1 = "INSERT INTO signup(`name`,`email`,`password`) VALUES (?)";
-		const values = [req.body.name, req.body.email, req.body.password];
+		const values = [req.body.name, req.body.email, encryptedPassword];
 		await db.query(sql1, [values]);
 
 		try {
-
-			const sql = "SELECT * FROM signup WHERE `email` = ? AND `password` = ?";
-			db.query(sql, [req.body.email, req.body.password], async (err, data) => {
+			console.log("DONE")
+			const sql = "SELECT * FROM signup WHERE `email` = ?";
+			db.query(sql, [req.body.email], async (err, data) => {
 				if (err) {
 					console.log(err.message)
 					return res.json({ error: err.message });
 				}
 				if (data.length > 0) {
-					const useridTemp = data[0].id;
-					userid = useridTemp
-					console.log("Check from signup: " + userid)
-					const sql3 = "INSERT INTO user_access(`userid`,`partycode`) VALUES (?, '{}')";
-					const values = [useridTemp];
-					await db.query(sql3, [values]);
+						const useridTemp = data[0].id;
+						userid = useridTemp
+						console.log("Check from signup: " + userid)
+						const sql3 = "INSERT INTO user_access(`userid`,`partycode`) VALUES (?, '{}')";
+						const values = [useridTemp];
+						await db.query(sql3, [values]);
 
-					return res.json({ message: true });
-
+						return res.json({ message: true });
 
 				} else {
 					return res.json({ message: false });
@@ -107,7 +112,7 @@ app.post('/signup', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    
+
 	if (req.session.username) {
 		const sql = "SELECT partycode FROM user_access WHERE `userid` = ?";
 		db.query(sql, userid, (err, data) => {
@@ -140,7 +145,7 @@ app.get('/', (req, res) => {
 				});
 
 			} else {
-				res.clearCookie('connect.sid');	
+				res.clearCookie('connect.sid');
 				return res.json({ valid: false });
 			}
 		});
@@ -178,24 +183,29 @@ app.get('/getUserData', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-	const sql = "SELECT * FROM signup WHERE `email` = ? AND `password` = ?";
+	const sql = "SELECT * FROM signup WHERE `email` = ?";
 
 	console.log(req.body.email, req.body.password)
-	db.query(sql, [req.body.email, req.body.password], (err, data) => {
-		console.log("inlogin")
+	db.query(sql, [req.body.email], async (err, data) => {
 		if (err) {
 			console.log(err.message)
 			return res.json({ error: err.message });
 		}
 		if (data.length > 0) {
-			console.log('true')
-			req.session.username = data[0].name;
-			req.session.userid = data[0].id;
-			userid = req.session.userid;
-			console.log(req.session.username);
-			console.log(req.session.userid);
-            res.cookie('session', 'cookieValue', { /* options */ });
-			return res.json({ message: true, email: req.body.email, password: req.body.password, name: data[0].name,id: req.session.userid });
+			const decryptedPassword = cryptr.decrypt(data[0].password);
+			if(decryptedPassword === req.body.password[0]) {
+				console.log('true')
+				req.session.username = data[0].name;
+				req.session.userid = data[0].id;
+				userid = req.session.userid;
+				console.log(req.session.username);
+				console.log(req.session.userid);
+				res.cookie('session', 'cookieValue', { /* options */ });
+				return res.json({ message: true, email: req.body.email, password: req.body.password, name: data[0].name });
+			} else {
+				console.log("Incorrect Password")
+				return res.json({ message: false });
+			}
 		} else {
 			return res.json({ message: false });
 		}
