@@ -5,7 +5,7 @@ import { useUserData } from '../context/UserContext';
 import AuthMiddleware from './AuthMiddleware';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+import { Link } from 'react-router-dom';
 function Profile() {
   AuthMiddleware();
   const { userData } = useUserData();
@@ -22,7 +22,8 @@ function Profile() {
         console.log(res);
         setName(res.data.name);
         setEmail(res.data.email);
-        setPassword(res.data.password);
+        setPassword(res.data.password)
+          // const key = "pixsort-12344321";
       })
       .catch((err) => console.error(err));
   }, []);
@@ -32,7 +33,7 @@ function Profile() {
     setNameError('');
     setEmailError('');
     setPasswordError('');
-
+    
     // Name validation
     if (name.length < 3) {
       setNameError('Name must be at least 3 characters long');
@@ -76,6 +77,13 @@ function Profile() {
 
   return (
     <div className="d-flex">
+    <style>
+        {`
+          .card {
+            transition: none; /* Remove the transition effect */
+          }
+        `}
+      </style>
       <Sidebar />
       <div className="container my-4">
         <div className="row">
@@ -118,11 +126,13 @@ function Profile() {
                     className={`form-control ${passwordError ? 'is-invalid' : ''}`}
                     id="password"
                     value={password}
+                    readOnly
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   {passwordError && <div className="invalid-feedback d-block">{passwordError}</div>}
                 </div>
                 <button onClick={handleSubmit} className="btn btn-primary">Update Profile</button>
+                <Link to='/selfImageupload' className="btn btn-primary">upload More Selfies ?</Link>
               </div>
             </div>
           </div>

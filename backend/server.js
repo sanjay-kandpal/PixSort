@@ -201,7 +201,7 @@ app.post('/login', (req, res) => {
 				// console.log(req.session.username);
 				// console.log(req.session.userid);
 				res.cookie('session', 'cookieValue', { /* options */ });
-				return res.json({ message: true, email: req.body.email, password: req.body.password, name: data[0].name });
+				return res.json({ message: true, email: req.body.email, password: req.body.password, name: data[0].name,id: userid });
 			} else {
 				console.log("Incorrect Password")
 				return res.json({ message: false });

@@ -14,6 +14,13 @@ const Share = () => {
   return (
     <div className="d-flex">
       <Sidebar />
+      <style>
+        {`
+          .card {
+            transition: none; /* Remove the transition effect */
+          }
+        `}
+      </style>
       <div className="container my-5">
         <div className="row justify-content-center">
           <div className="col-md-8 col-lg-6">
