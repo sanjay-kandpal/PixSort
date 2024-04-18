@@ -73,8 +73,8 @@ const FileUpload = () => {
 			return;
 		}
 
-		if (files.length > 20) {
-			toast.error("You can only upload 20 files at a time")
+		if (files.length > 100) {
+			toast.error("You can only upload 100 files at a time")
 			return
 		}
 
@@ -146,7 +146,7 @@ const FileUpload = () => {
 		onDrop,
 		// accept: "image/*",
 		// maxSize: 1024 * 1024 * 5,
-		maxFiles: 20,
+		maxFiles: 100,
 		name: "images",
 	});
 

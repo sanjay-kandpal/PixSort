@@ -22,10 +22,10 @@ const Card = ({ codes }) => {
                 <input type="text" placeholder="Search Album by Title" value={search} onChange={(e) => { setSearch(e.target.value) }} />
                 {/* <BiSearch className="icon" /> */}
             </div>
-            <div className="card--container">
+            <div className="card--container" style={{justifyContent:"space-evenly"}}>
                 {filteredCodes.map((code) => (
                     <Link to={`/album/${code.partycode}`} key={code.partycode}>
-                        <div className="card">
+                        <div className="card" style={{width: "16rem"}}>
                             <div className="card--title">
                                 <h3>{code.title}</h3>
                             </div>

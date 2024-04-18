@@ -60,7 +60,7 @@ const db = mysql.createConnection({
 })
 
 db.connect((err) => {
-	
+
 	if (err) {
 		console.error('Error connecting to MySQL database:', err);
 	} else {
@@ -78,7 +78,7 @@ app.post('/signup', async (req, res) => {
 		await db.query(sql1, [values]);
 
 		try {
-			console.log("DONE")
+			// console.log("DONE")
 			const sql = "SELECT * FROM signup WHERE `email` = ?";
 			db.query(sql, [req.body.email], async (err, data) => {
 				if (err) {
@@ -86,14 +86,14 @@ app.post('/signup', async (req, res) => {
 					return res.json({ error: err.message });
 				}
 				if (data.length > 0) {
-						const useridTemp = data[0].id;
-						userid = useridTemp
-						console.log("Check from signup: " + userid)
-						const sql3 = "INSERT INTO user_access(`userid`,`partycode`) VALUES (?, '{}')";
-						const values = [useridTemp];
-						await db.query(sql3, [values]);
+					const useridTemp = data[0].id;
+					userid = useridTemp
+					// console.log("Check from signup: " + userid)
+					const sql3 = "INSERT INTO user_access(`userid`,`partycode`) VALUES (?, '{}')";
+					const values = [useridTemp];
+					await db.query(sql3, [values]);
 
-						return res.json({ message: true });
+					return res.json({ message: true });
 
 				} else {
 					return res.json({ message: false });
@@ -161,16 +161,16 @@ app.get('/', (req, res) => {
 app.get('/getUserData', (req, res) => {
 
 	const sql = "SELECT * FROM signup WHERE `id` = ?";
-	console.log("Check: " + userid)
+	// console.log("Check: " + userid)
 	db.query(sql, [userid], (err, data) => {
-		console.log(data)
+		// console.log(data)
 		if (err) {
 			console.log(err.message)
 			return res.json({ error: err.message });
 		}
 		if (data.length > 0) {
-			console.log(data[0].id)
-			console.log(data[0].name)
+			// console.log(data[0].id)
+			// console.log(data[0].name)
 
 			return res.json({
 				id: data[0].id,
@@ -185,7 +185,7 @@ app.get('/getUserData', (req, res) => {
 app.post('/login', (req, res) => {
 	const sql = "SELECT * FROM signup WHERE `email` = ?";
 
-	console.log(req.body.email, req.body.password)
+	// console.log(req.body.email, req.body.password)
 	db.query(sql, [req.body.email], async (err, data) => {
 		if (err) {
 			console.log(err.message)
@@ -193,13 +193,13 @@ app.post('/login', (req, res) => {
 		}
 		if (data.length > 0) {
 			const decryptedPassword = cryptr.decrypt(data[0].password);
-			if(decryptedPassword === req.body.password[0]) {
-				console.log('true')
+			if (decryptedPassword === req.body.password[0]) {
+				// console.log('true')
 				req.session.username = data[0].name;
 				req.session.userid = data[0].id;
 				userid = req.session.userid;
-				console.log(req.session.username);
-				console.log(req.session.userid);
+				// console.log(req.session.username);
+				// console.log(req.session.userid);
 				res.cookie('session', 'cookieValue', { /* options */ });
 				return res.json({ message: true, email: req.body.email, password: req.body.password, name: data[0].name });
 			} else {
@@ -281,7 +281,7 @@ app.post('/addPartcodeForUser', async (req, res) => {
 					return;
 				}
 
-				console.log('Upload data inserted into MySQL');
+				// console.log('Upload data inserted into MySQL');
 				res.status(200).json({ message: 'Upload successful', user: userid });
 			});
 		});
@@ -362,24 +362,24 @@ app.post('/upload', async (req, res) => {
 
 // Route to handle user retrieval
 app.get('/user', (req, res) => {
-  const userId = req.query.id;
-  const query = `SELECT * FROM signup WHERE id = ${userId}`;
+	const userId = req.query.id;
+	const query = `SELECT * FROM signup WHERE id = ${userId}`;
 
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error executing MySQL query:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
-      return;
-    }
+	db.query(query, (err, results) => {
+		if (err) {
+			console.error('Error executing MySQL query:', err);
+			res.status(500).json({ error: 'Internal Server Error' });
+			return;
+		}
 
-    if (results.length === 0) {
-      res.status(404).json({ error: 'User not found' });
-      return;
-    }
+		if (results.length === 0) {
+			res.status(404).json({ error: 'User not found' });
+			return;
+		}
 
-    // Return the user data as JSON
-    res.json(results[0]);
-  });
+		// Return the user data as JSON
+		res.json(results[0]);
+	});
 });
 
 
@@ -387,31 +387,31 @@ app.get('/user', (req, res) => {
 app.put('/update', (req, res) => {
 	const userId = req.query.id;
 	const { name, email, password } = req.body;
-  
+
 	// Check if all required fields are provided
 	if (!name || !email || !password) {
-	  return res.status(400).json({ error: 'All fields are required' });
+		return res.status(400).json({ error: 'All fields are required' });
 	}
-  
+
 	// Update the user data in the database
 	const query = `UPDATE signup SET name = ?, email = ?, password = ? WHERE id = ?`;
 	db.query(query, [name, email, password, userId], (err, result) => {
-	  if (err) {
-		console.error('Error executing MySQL query:', err);
-		res.status(500).json({ error: 'Internal Server Error' });
-		return;
-	  }
-  
-	  // Check if the user was found and updated
-	  if (result.affectedRows === 0) {
-		res.status(404).json({ error: 'User not found' });
-		return;
-	  }
-  
-	  res.json({ message: 'User data updated successfully',valid: 'true' });
+		if (err) {
+			console.error('Error executing MySQL query:', err);
+			res.status(500).json({ error: 'Internal Server Error' });
+			return;
+		}
+
+		// Check if the user was found and updated
+		if (result.affectedRows === 0) {
+			res.status(404).json({ error: 'User not found' });
+			return;
+		}
+
+		res.json({ message: 'User data updated successfully', valid: 'true' });
 	});
-  });
-  
+});
+
 
 
 
