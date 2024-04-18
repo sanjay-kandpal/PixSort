@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import girlImg from '../images/girlPhotoGrapher.jpg'
 import { Link } from 'react-router-dom';
+
 function Signup() {
     const [values, setValues] = useState({
         name: '',
@@ -80,7 +81,6 @@ function Signup() {
                 </div>
             </div>
         </div>
-
     )
 }
 

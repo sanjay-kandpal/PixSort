@@ -121,7 +121,7 @@ const FileUpload = () => {
 			});
 
 			if (response.ok) {
-				toast.error('Upload data sent to server successfully');
+				toast.success('Upload data sent to server successfully');
 			} else {
 				toast.error('Error sending upload data to server');
 			}
