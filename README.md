@@ -1,5 +1,27 @@
-PixSort : Empowered By AWS Rekoginition
+# PixSort 🖼️
 
- PixSort emerges as a transformative solution, revolutionizing photo-sharing dynamics, particularly in Tier 2 and Tier 3 Cities. Leveraging cutting-edge technologies such as React JS , ExpressJS, and SQL,AWS Rekoginition Service, the system tackles the complex challenges faced by photographers, ensuring transparency, accountability, and operational efficiency. PixSort's user-friendly interface simplifies the photo-sharing process, empowering party-goers to seamlessly share their moments. Moreover, administrators benefit from robust tools to efficiently manage and resolve complaints, fostering a conducive learning environment. PixSort not only streamlines the photo-sharing experience but also addresses the Photographer's Problem comprehensively, making it an indispensable tool for capturing and cherishing visual memories in diverse urban landscapes..
+## Powered by AWS Rekognition
 
- 
+PixSort is a transformative photo-sharing platform designed specifically for photographers and event-goers in Tier 2 and Tier 3 cities. The platform leverages cutting-edge technologies to streamline the photo-sharing process while ensuring transparency and accountability.
+
+## 🚀 Features
+
+- Intelligent photo organization using AWS Rekognition
+- Seamless photo sharing and management
+- User-friendly interface for both photographers and event attendees
+- Robust complaint management system
+- Secure file handling and storage
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React.js
+- **Backend**: Express.js
+- **Database**: MySQL
+- **Cloud Services**: AWS Rekognition
+- **Additional Technologies**:
+  - AWS SDK
+  - Bootstrap
+  - React Router
+  - Axios
+  - JWT Authentication
+
